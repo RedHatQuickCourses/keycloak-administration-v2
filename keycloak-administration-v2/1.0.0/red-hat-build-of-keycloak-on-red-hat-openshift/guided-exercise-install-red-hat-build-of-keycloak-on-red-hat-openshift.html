@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift :: Red Hat build of Keycloak Administration and Security</title>
+    <link rel="prev" href="configuration-and-management-on-openshift.html">
+    <link rel="next" href="guided-exercise-configure-red-hat-build-of-keycloak-on-red-hat-openshift.html">
+    <meta name="generator" content="Antora 3.2.0-alpha.12">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/tabs.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/collapsible.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/reading-time.css">
+    <link rel="stylesheet" href="../../../_/css/vendor/audio-transcript.css">
+    <script>var uiRootPath = '../../../_'</script>
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="https://www.redhat.com" target="_blank"><img src="../../../_/img/redhat-logo.png" height="40px" alt="Red Hat"></a>
+      <a class="navbar-item" style="font-size: 24px; color: white" href="../../..">Red Hat build of Keycloak Administration and Security</a>
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="https://github.com/RedHatQuickCourses/REPLACEREPONAME/issues" target="_blank">Report Issues</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="keycloak-administration-v2" data-version="1.0.0">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">Red Hat build of Keycloak Administration and Security</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../index.html">Home</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../LABENV/index.html">Lab Environment</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/introduce-red-hat-build-of-keycloak.html">Introduce Red Hat build of Keycloak</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/overview-of-red-hat-build-of-keycloak-features.html">Overview of Red Hat build of Keycloak features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/single-sign-on-standards-oidc-oauth-20-saml-20.html">Single Sign-On standards (OIDC, OAuth 2.0, SAML 2.0)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/architecture-and-operational-concepts.html">Architecture and operational concepts</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/security-token-mechanisms-and-credential-isolation.html">Security token mechanisms and credential isolation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/quiz-describe-keycloak-systems.html">Quiz: Describe Keycloak Systems</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../introduce-red-hat-build-of-keycloak/quiz-introduce-red-hat-build-of-keycloak.html">Quiz: Introduce Red Hat build of Keycloak</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/install-and-configure-red-hat-build-of-keycloak.html">Install and Configure Red Hat build of Keycloak</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/development-mode-installation-requirements.html">Development mode installation requirements</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/admin-console-exploration-and-configuration.html">Admin Console exploration and configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/admin-cli-operations.html">Admin CLI operations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/guided-exercise-red-hat-build-of-keycloak-installation.html">Guided Exercise: Red Hat build of Keycloak Installation</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/guided-exercise-explore-and-configure-the-admin-console.html">Guided Exercise: Explore and Configure the Admin Console</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/guided-exercise-red-hat-build-of-keycloak-admin-cli.html">Guided Exercise: Red Hat build of Keycloak Admin CLI</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../install-and-configure-red-hat-build-of-keycloak/lab-install-red-hat-build-of-keycloak.html">Lab: Install Red Hat build of Keycloak</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../authentication-and-authorization/authentication-and-authorization.html">Authentication and Authorization</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/user-authentication-flows.html">User authentication flows</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/role-based-and-permission-based-authorization.html">Role-based and permission-based authorization</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/customizing-authentication-sessions.html">Customizing authentication sessions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/guided-exercise-authenticate-users-with-red-hat-build-of-keycloak.html">Guided Exercise: Authenticate Users with Red Hat build of Keycloak</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/guided-exercise-authorize-users-with-red-hat-build-of-keycloak.html">Guided Exercise: Authorize Users with Red Hat build of Keycloak</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/guided-exercise-customize-authentication-with-red-hat-build-of-keycloak.html">Guided Exercise: Customize authentication with Red Hat build of Keycloak</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../authentication-and-authorization/lab-authentication-and-authorization.html">Lab: Authentication and Authorization</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../identity-brokering-and-user-federation/identity-brokering-and-user-federation.html">Identity Brokering and User Federation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/ldap-and-active-directory-integration.html">LDAP and Active Directory integration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/delegating-authentication-to-third-party-identity-providers.html">Delegating authentication to third-party identity providers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/social-login-configuration.html">Social login configuration</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/guided-exercise-federating-users-with-red-hat-build-of-keycloak.html">Guided Exercise: Federating Users with Red Hat build of Keycloak</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/guided-exercise-integrating-social-login-with-red-hat-build-of-keycloak.html">Guided Exercise: Integrating Social Login with Red Hat build of Keycloak</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../identity-brokering-and-user-federation/lab-identity-brokering-and-user-federation.html">Lab: Identity Brokering and User Federation</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="red-hat-build-of-keycloak-on-red-hat-openshift.html">Red Hat build of Keycloak on Red Hat OpenShift</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="deploying-keycloak-in-containerized-environments.html">Deploying Keycloak in containerized environments</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="configuration-and-management-on-openshift.html">Configuration and management on OpenShift</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="guided-exercise-install-red-hat-build-of-keycloak-on-red-hat-openshift.html">Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="guided-exercise-configure-red-hat-build-of-keycloak-on-red-hat-openshift.html">Guided Exercise: Configure Red Hat build of Keycloak on Red Hat OpenShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="lab-red-hat-build-of-keycloak-on-red-hat-openshift.html">Lab: Red Hat build of Keycloak on Red Hat OpenShift</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../extending-and-templating-keycloak/extending-and-templating-keycloak.html">Extending and Templating Keycloak</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../extending-and-templating-keycloak/customizing-user-interfaces-login-registration-account-management.html">Customizing user interfaces (Login, Registration, Account Management)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../extending-and-templating-keycloak/extending-keycloak-functionality.html">Extending Keycloak functionality</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../extending-and-templating-keycloak/guided-exercise-templating-keycloak.html">Guided Exercise: Templating Keycloak</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-item-toggle"></button>
+    <a class="nav-link" href="../comprehensive-review/comprehensive-review.html">Comprehensive Review</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../comprehensive-review/review-of-key-security-concepts-and-configurations.html">Review of key security concepts and configurations</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../comprehensive-review/lab-install-and-configure-red-hat-build-of-keycloak.html">Lab: Install and Configure Red Hat build of Keycloak</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../appendix/appendix.html">Appendix</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="nav-panel-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">Red Hat build of Keycloak Administration and Security</span>
+    <span class="version">1.0.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../index.html">Red Hat build of Keycloak Administration and Security</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">1.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+  <ul>
+    <li><a href="../index.html">Red Hat build of Keycloak Administration and Security</a></li>
+    <li><a href="red-hat-build-of-keycloak-on-red-hat-openshift.html">Red Hat build of Keycloak on Red Hat OpenShift</a></li>
+    <li><a href="guided-exercise-install-red-hat-build-of-keycloak-on-red-hat-openshift.html">Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift</a></li>
+  </ul>
+</nav>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift</h1>
+<h1 id="_guided_exercise_install_red_hat_build_of_keycloak_on_red_hat_openshift" class="sect0"><a class="anchor" href="#_guided_exercise_install_red_hat_build_of_keycloak_on_red_hat_openshift"></a>Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift</h1>
+<div class="paragraph">
+<p>In this exercise, you will deploy the Red Hat build of Keycloak on an OpenShift cluster using the Keycloak Operator. This approach leverages Kubernetes-native patterns to manage the lifecycle of your identity provider.</p>
+</div>
+<div class="sect1">
+<h2 id="_prerequisites"><a class="anchor" href="#_prerequisites"></a>Prerequisites</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>An active Red Hat OpenShift cluster.</p>
+</li>
+<li>
+<p><code>oc</code> CLI tool installed and authenticated to your cluster.</p>
+</li>
+<li>
+<p>Access to the OperatorHub within the OpenShift web console.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_1_create_a_namespace"><a class="anchor" href="#_step_1_create_a_namespace"></a>Step 1: Create a Namespace</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is best practice to isolate your Keycloak deployment in its own project.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc new-project sso-production</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_2_install_the_keycloak_operator"><a class="anchor" href="#_step_2_install_the_keycloak_operator"></a>Step 2: Install the Keycloak Operator</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Keycloak Operator automates the deployment and management of Keycloak instances.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Log in to the OpenShift Web Console.</p>
+</li>
+<li>
+<p>Navigate to <strong>Operators</strong> &gt; <strong>OperatorHub</strong>.</p>
+</li>
+<li>
+<p>Search for <strong>Keycloak</strong>.</p>
+</li>
+<li>
+<p>Select the <strong>Red Hat build of Keycloak</strong> operator.</p>
+</li>
+<li>
+<p>Click <strong>Install</strong>.</p>
+</li>
+<li>
+<p>Ensure the <strong>Installation Mode</strong> is set to "A specific namespace on the cluster" and select <code>sso-production</code>.</p>
+</li>
+<li>
+<p>Click <strong>Install</strong>.</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_3_define_the_keycloak_custom_resource"><a class="anchor" href="#_step_3_define_the_keycloak_custom_resource"></a>Step 3: Define the Keycloak Custom Resource</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Once the Operator is running, you must define the <code>Keycloak</code> custom resource. This resource specifies the desired state of your Keycloak deployment.</p>
+</div>
+<div class="paragraph">
+<p>Create a file named <code>keycloak-instance.yaml</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-yaml hljs" data-lang="yaml">apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: sso-keycloak
+  namespace: sso-production
+spec:
+  instances: 1
+  image: registry.access.redhat.com/rhbk/keycloak-rhel9:22.0
+  db:
+    vendor: postgres
+    host: keycloak-db
+  hostname:
+    hostname: sso.example.com
+  tls:
+    certificateSecret:
+      secretName: keycloak-tls-secret</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Apply the configuration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc apply -f keycloak-instance.yaml</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_step_4_verify_the_installation"><a class="anchor" href="#_step_4_verify_the_installation"></a>Step 4: Verify the Installation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Check the status of your deployment to ensure the pods are starting correctly.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc get pods -n sso-production</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should see the Keycloak pod transitioning to the <code>Running</code> state. You can inspect the logs to verify successful startup:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">oc logs -f deployment/sso-keycloak -n sso-production</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting_tips"><a class="anchor" href="#_troubleshooting_tips"></a>Troubleshooting Tips</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Resource Constraints:</strong> If the pod remains in <code>Pending</code> state, check the node resources using <code>oc describe pod &lt;pod-name&gt;</code>.</p>
+</li>
+<li>
+<p><strong>Image Pull Errors:</strong> Ensure your cluster has appropriate access to the Red Hat Ecosystem Catalog or that your pull secrets are correctly configured.</p>
+</li>
+<li>
+<p><strong>Database Connectivity:</strong> If the log shows connection failures, verify that your database service is running and that the <code>db</code> spec in your <code>Keycloak</code> custom resource matches the service name and credentials.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_summary"><a class="anchor" href="#_summary"></a>Summary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You have successfully installed the Red Hat build of Keycloak on OpenShift using the Operator pattern. You are now prepared to proceed to configuring the environment for authentication flows.</p>
+</div>
+</div>
+</div>
+<nav class="pagination">
+  <span class="prev"><a href="configuration-and-management-on-openshift.html">Configuration and management on OpenShift</a></span>
+  <span class="next"><a href="guided-exercise-configure-red-hat-build-of-keycloak-on-red-hat-openshift.html">Guided Exercise: Configure Red Hat build of Keycloak on Red Hat OpenShift</a></span>
+</nav>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <img src="../../../_/img/rhl-logo-red.png" height="40px" alt="Red Hat"  href="https://redhat.com" >
+</footer><script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+<script defer src="../../../_/js/vendor/tabs.js"></script>
+<script defer src="../../../_/js/vendor/reading-time.js"></script>
+  </body>
+</html>

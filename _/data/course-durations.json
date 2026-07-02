@@ -1,11 +1,11 @@
 {
-  "totalSeconds": 428,
-  "pageCount": 15,
+  "totalSeconds": 4236,
+  "pageCount": 46,
   "pages": [
     {
       "module": "ROOT",
       "page": "index.adoc",
-      "seconds": 15
+      "seconds": 22
     },
     {
       "module": "LABENV",
@@ -13,64 +13,219 @@
       "seconds": 4
     },
     {
-      "module": "chapter1",
-      "page": "index.adoc",
-      "seconds": 9
-    },
-    {
-      "module": "chapter1",
-      "page": "section1.adoc",
-      "seconds": 9
-    },
-    {
-      "module": "chapter1",
-      "page": "section2.adoc",
-      "seconds": 9
-    },
-    {
-      "module": "chapter1",
-      "page": "section3.adoc",
-      "seconds": 9
-    },
-    {
-      "module": "chapter1",
-      "page": "tabs-demo.adoc",
-      "seconds": 20
-    },
-    {
-      "module": "chapter1",
-      "page": "collapsible-demo.adoc",
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "introduce-red-hat-build-of-keycloak.adoc",
       "seconds": 36
     },
     {
-      "module": "chapter1",
-      "page": "images.adoc",
-      "seconds": 271
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "overview-of-red-hat-build-of-keycloak-features.adoc",
+      "seconds": 139
     },
     {
-      "module": "chapter2",
-      "page": "index.adoc",
-      "seconds": 9
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "single-sign-on-standards-oidc-oauth-20-saml-20.adoc",
+      "seconds": 150
     },
     {
-      "module": "chapter2",
-      "page": "section1.adoc",
-      "seconds": 9
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "architecture-and-operational-concepts.adoc",
+      "seconds": 131
     },
     {
-      "module": "chapter3",
-      "page": "index.adoc",
-      "seconds": 9
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "security-token-mechanisms-and-credential-isolation.adoc",
+      "seconds": 130
     },
     {
-      "module": "chapter3",
-      "page": "section1.adoc",
-      "seconds": 9
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "quiz-describe-keycloak-systems.adoc",
+      "seconds": 11
     },
     {
-      "module": "chapter3",
-      "page": "section2.adoc",
-      "seconds": 9
+      "module": "introduce-red-hat-build-of-keycloak",
+      "page": "quiz-introduce-red-hat-build-of-keycloak.adoc",
+      "seconds": 129
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "install-and-configure-red-hat-build-of-keycloak.adoc",
+      "seconds": 35
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "development-mode-installation-requirements.adoc",
+      "seconds": 117
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "admin-console-exploration-and-configuration.adoc",
+      "seconds": 72
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "admin-cli-operations.adoc",
+      "seconds": 61
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "guided-exercise-red-hat-build-of-keycloak-installation.adoc",
+      "seconds": 102
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "guided-exercise-explore-and-configure-the-admin-console.adoc",
+      "seconds": 125
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "guided-exercise-red-hat-build-of-keycloak-admin-cli.adoc",
+      "seconds": 74
+    },
+    {
+      "module": "install-and-configure-red-hat-build-of-keycloak",
+      "page": "lab-install-red-hat-build-of-keycloak.adoc",
+      "seconds": 92
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "authentication-and-authorization.adoc",
+      "seconds": 30
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "user-authentication-flows.adoc",
+      "seconds": 145
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "role-based-and-permission-based-authorization.adoc",
+      "seconds": 146
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "customizing-authentication-sessions.adoc",
+      "seconds": 144
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "guided-exercise-authenticate-users-with-red-hat-build-of-keycloak.adoc",
+      "seconds": 142
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "guided-exercise-authorize-users-with-red-hat-build-of-keycloak.adoc",
+      "seconds": 139
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "guided-exercise-customize-authentication-with-red-hat-build-of-keycloak.adoc",
+      "seconds": 125
+    },
+    {
+      "module": "authentication-and-authorization",
+      "page": "lab-authentication-and-authorization.adoc",
+      "seconds": 97
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "identity-brokering-and-user-federation.adoc",
+      "seconds": 41
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "ldap-and-active-directory-integration.adoc",
+      "seconds": 112
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "delegating-authentication-to-third-party-identity-providers.adoc",
+      "seconds": 144
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "social-login-configuration.adoc",
+      "seconds": 137
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "guided-exercise-federating-users-with-red-hat-build-of-keycloak.adoc",
+      "seconds": 80
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "guided-exercise-integrating-social-login-with-red-hat-build-of-keycloak.adoc",
+      "seconds": 142
+    },
+    {
+      "module": "identity-brokering-and-user-federation",
+      "page": "lab-identity-brokering-and-user-federation.adoc",
+      "seconds": 162
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "red-hat-build-of-keycloak-on-red-hat-openshift.adoc",
+      "seconds": 34
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "deploying-keycloak-in-containerized-environments.adoc",
+      "seconds": 79
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "configuration-and-management-on-openshift.adoc",
+      "seconds": 84
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "guided-exercise-install-red-hat-build-of-keycloak-on-red-hat-openshift.adoc",
+      "seconds": 66
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "guided-exercise-configure-red-hat-build-of-keycloak-on-red-hat-openshift.adoc",
+      "seconds": 70
+    },
+    {
+      "module": "red-hat-build-of-keycloak-on-red-hat-openshift",
+      "page": "lab-red-hat-build-of-keycloak-on-red-hat-openshift.adoc",
+      "seconds": 111
+    },
+    {
+      "module": "extending-and-templating-keycloak",
+      "page": "extending-and-templating-keycloak.adoc",
+      "seconds": 18
+    },
+    {
+      "module": "extending-and-templating-keycloak",
+      "page": "customizing-user-interfaces-login-registration-account-management.adoc",
+      "seconds": 151
+    },
+    {
+      "module": "extending-and-templating-keycloak",
+      "page": "extending-keycloak-functionality.adoc",
+      "seconds": 132
+    },
+    {
+      "module": "extending-and-templating-keycloak",
+      "page": "guided-exercise-templating-keycloak.adoc",
+      "seconds": 73
+    },
+    {
+      "module": "comprehensive-review",
+      "page": "comprehensive-review.adoc",
+      "seconds": 23
+    },
+    {
+      "module": "comprehensive-review",
+      "page": "review-of-key-security-concepts-and-configurations.adoc",
+      "seconds": 126
+    },
+    {
+      "module": "comprehensive-review",
+      "page": "lab-install-and-configure-red-hat-build-of-keycloak.adoc",
+      "seconds": 52
     },
     {
       "module": "appendix",
