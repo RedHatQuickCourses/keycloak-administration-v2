@@ -1,0 +1,65 @@
+#  Lab: Install Red Hat build of Keycloak
+
+= Lab: Install Red Hat build of Keycloak
+
+In this lab, you will perform a development-mode installation of the Red Hat build of Keycloak. This process prepares a local environment for administrative configuration and testing.
+
+== Prerequisites
+* A supported Java Development Kit (JDK) installed (JDK 17 or later).
+* The Red Hat build of Keycloak distribution archive.
+* Approximately 1GB of available disk space.
+
+== Objectives
+* Download and extract the Red Hat build of Keycloak server.
+* Initialize the server in development mode.
+* Access the Admin Console for initial validation.
+
+== Step-by-Step Instructions
+
+=== Step 1: Extract the Distribution
+Download the distribution archive from the Red Hat Customer Portal. Extract the contents to a local directory of your choice.
+
+[source,bash]
+----
+# Replace keycloak-version with your specific downloaded filename
+tar -xvf rhbk-keycloak-version.tar.gz
+cd rhbk-keycloak-version
+----
+
+=== Step 2: Start the Server in Development Mode
+Development mode is designed for rapid testing and configuration. It automatically sets up a built-in H2 database and enables HTTP (without requiring TLS certificates for initial setup).
+
+Run the start-dev command:
+
+[source,bash]
+----
+bin/kc.sh start-dev
+----
+
+*Expected Output:*
+The server will output startup logs. Look for the message `Keycloak ... started in (X) ms` and note the URL provided for the Admin Console, typically `http://localhost:8080`.
+
+=== Step 3: Create the Initial Admin User
+Because the server was started in `start-dev` mode, if no other users exist, you may need to define the administrative account via environment variables or follow the browser-based prompt if the system is fresh. 
+
+If prompted, navigate to `http://localhost:8080/admin` in your web browser.
+
+=== Step 4: Validate the Installation
+1. Open your browser and navigate to `http://localhost:8080`.
+2. Click on the **Administration Console** link.
+3. Log in using the credentials you defined.
+4. Verify that you can view the default `master` realm dashboard.
+
+== Troubleshooting
+* **Port Conflict:** If port `8080` is already in use, you can start the server on a different port using the `--http-port` flag:
++
+[source,bash]
+----
+bin/kc.sh start-dev --http-port 8081
+----
+* **Java Issues:** Ensure your `JAVA_HOME` environment variable is pointing to a valid JDK 17 or 21 installation by running `java -version`.
+
+== Review
+* You have successfully installed the Red Hat build of Keycloak.
+* You have verified the server is running in development mode.
+* You have confirmed access to the Admin Console, which is the prerequisite for all subsequent configuration tasks.

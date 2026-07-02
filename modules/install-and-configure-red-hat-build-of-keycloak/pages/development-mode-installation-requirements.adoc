@@ -1,0 +1,64 @@
+#  Development mode installation requirements
+
+= Development Mode Installation Requirements
+
+To get started with the Red Hat build of Keycloak, the development mode is designed for rapid prototyping and local testing. This mode prioritizes ease of use and developer productivity by relaxing several security and performance constraints required for production environments.
+
+== Development Mode Overview
+
+Development mode is intended strictly for local development and initial exploration. It allows developers to quickly spin up an instance to test configurations, develop custom themes, or experiment with identity providers without needing to configure complex networking or high-availability infrastructure.
+
+== Default Configuration
+
+When starting the Red Hat build of Keycloak in development mode, the system automatically applies the following defaults:
+
+*   **HTTP Protocol:** HTTP is enabled by default. Note that this is insecure for production use and should not be used for transferring sensitive credentials over public networks.
+*   **Hostname Resolution:** Strict hostname resolution is disabled. This simplifies local testing by allowing access via `localhost` or non-standard host configurations.
+*   **Cache Configuration:** The cache is set to `local`. There is no distributed cache mechanism enabled, which means the instance cannot share state with other nodes in a high-availability cluster.
+*   **Theme and Template Caching:** Both theme-caching and template-caching are disabled. This is critical for theme development, as it ensures that changes made to HTML templates or CSS files are reflected immediately upon refreshing the browser, without requiring a server restart.
+
+== System Requirements and Considerations
+
+Before installing in development mode, ensure your environment meets the following criteria:
+
+[IMPORTANT]
+====
+While development mode is convenient, you must refer to the **Red Hat Knowledgebase Article on supported configurations** to review the official requirements regarding Java versions and compatible operating systems. Even for local development, using a supported OpenJDK version is required to ensure consistent behavior.
+====
+
+=== Directory Structure Understanding
+Upon installation, familiarize yourself with the installation root directory. Understanding the file hierarchy is essential for managing your development instance:
+
+*   **`bin/`**: Contains the `kc.sh` (or `kc.bat`) scripts required to start and stop the server.
+*   **`conf/`**: Contains the `keycloak.conf` file. While development mode uses defaults, you can override specific settings here if needed.
+*   **`providers/`**: The location for deploying custom extensions or SPI (Service Provider Interface) implementations.
+*   **`themes/`**: The directory where you will create and modify custom themes for the login and account management pages.
+
+== Hands-on Exercise: Launching in Development Mode
+
+Follow these steps to verify your installation in development mode.
+
+. **Navigate to the installation directory:**
++
+[source,bash]
+----
+cd /path/to/keycloak-installation
+----
+
+. **Start the server:**
++
+[source,bash]
+----
+./bin/kc.sh start-dev
+----
+
+. **Verify the logs:**
+Observe the console output. You will see messages indicating that the server is running in "dev" profile and that development-specific features (like disabled strict hostname resolution) are active.
+
+. **Access the Admin Console:**
+Open your browser and navigate to `http://localhost:8080`. You will be prompted to create the initial administrative user if this is your first time launching the instance.
+
+[TIP]
+====
+If you are developing themes, remember that because template-caching is disabled, you can edit files in the `themes/` directory and simply reload your browser to see changes instantly.
+====

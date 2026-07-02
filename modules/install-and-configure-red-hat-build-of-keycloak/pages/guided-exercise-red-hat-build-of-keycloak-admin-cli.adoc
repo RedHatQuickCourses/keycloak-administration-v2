@@ -1,0 +1,83 @@
+#  Guided Exercise: Red Hat build of Keycloak Admin CLI
+
+= Guided Exercise: Red Hat build of Keycloak Admin CLI
+
+The Red Hat build of Keycloak Admin CLI (`kcadm.sh`) is a powerful utility that allows administrators to perform administrative tasks, such as managing realms, clients, and users, directly from the terminal. This tool is essential for automation and scripting administrative operations.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak.
+* The `kcadm.sh` script (located in the `bin/` directory of your Keycloak installation).
+* A user account with the `admin` role.
+
+== Step 1: Locating the Admin CLI
+The `kcadm.sh` script is bundled with your Keycloak distribution. Navigate to your installation directory to verify the tool is available.
+
+[source,bash]
+----
+cd /path/to/keycloak/bin
+ls kcadm.sh
+----
+
+== Step 2: Authenticating with the Admin CLI
+Before executing commands, you must authenticate as an administrator to establish a session. You will need the server URL, the realm, and your admin credentials.
+
+1. Execute the authentication command:
++
+[source,bash]
+----
+./kcadm.sh config credentials --server http://localhost:8080/ --realm master --user admin --password <your_admin_password>
+----
+
+2. Verify the session was successfully created:
++
+[source,bash]
+----
+./kcadm.sh get serverinfo
+----
+*If successful, you will see a JSON output detailing the Keycloak server environment.*
+
+== Step 3: Managing Resources
+The `kcadm.sh` tool uses standard HTTP verbs (GET, POST, PUT, DELETE) to interact with the Keycloak REST API.
+
+=== Listing Realms
+To list all realms currently configured in your Keycloak instance:
+
+[source,bash]
+----
+./kcadm.sh get realms
+----
+
+=== Creating a New Realm
+To create a new realm, you can pass a JSON configuration file. Create a file named `myrealm.json`:
+
+[source,json]
+----
+{
+  "realm": "my-new-realm",
+  "enabled": true
+}
+----
+
+Then, execute the following command:
+
+[source,bash]
+----
+./kcadm.sh create realms -f myrealm.json
+----
+
+== Step 4: Troubleshooting
+If you encounter errors, ensure the following:
+
+* **URL Mismatch:** Ensure the `--server` URL matches the actual base URL of your Keycloak instance.
+* **Permissions:** Verify that the user provided has `manage-realm` or higher permissions in the `master` realm.
+* **Connectivity:** If Keycloak is running on OpenShift or a remote server, ensure your local environment has network access to the exposed API port.
+
+== Review Questions
+1. What command is used to authenticate the `kcadm.sh` tool against a specific realm?
+2. Which HTTP method does the `kcadm.sh` tool use by default when you provide a JSON file with the `create` command?
+3. Where is the `kcadm.sh` script located within the standard Red Hat build of Keycloak installation?
+
+[NOTE]
+====
+For advanced configurations, including custom truststores or non-standard ports, refer to the *Red Hat build of Keycloak Admin CLI documentation* in the official product guide.
+====

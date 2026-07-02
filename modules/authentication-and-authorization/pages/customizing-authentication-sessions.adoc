@@ -1,0 +1,67 @@
+#  Customizing authentication sessions
+
+= Customizing Authentication Sessions
+
+In the Red Hat build of Keycloak (RHBK), authentication sessions represent the transient state of a user during the login process. Managing these sessions effectively is critical for both security and user experience, ensuring that authentication flows are tracked reliably without leaving dangling processes or creating vulnerabilities.
+
+== Understanding Authentication Sessions
+
+When a user initiates a login request, Keycloak creates an **Authentication Session**. This session tracks the state of the authentication process, including which flow is being executed, the progress through the flow, and any errors or warnings encountered.
+
+Keycloak distinguishes between different types of sessions to maintain state:
+
+*   **Authentication Session:** Tracks the state of the user *while* they are authenticating (e.g., verifying credentials, multi-factor authentication steps).
+*   **User Session:** Created once authentication succeeds. This persists for the duration of the user's active login, allowing them to access multiple applications via Single Sign-On (SSO).
+*   **Client Session:** A sub-component of the user session that tracks the user's status within a specific client application.
+
+== Configuring Session Limits and Expiration
+
+To prevent resource exhaustion and mitigate session hijacking risks, you can customize the lifecycle of these sessions.
+
+[IMPORTANT]
+====
+Authentication sessions are distinct from active user sessions. While user sessions track the logged-in state, authentication sessions track the *login attempt*. Limiting these helps defend against brute-force attacks and stale session accumulation.
+====
+
+=== Key Configuration Parameters
+
+You can manage session behavior through the Admin Console or the Admin CLI. Key settings include:
+
+*   **SSO Session Idle:** The time an SSO session can be idle before it expires.
+*   **SSO Session Max:** The maximum time an SSO session can exist, regardless of activity.
+*   **Client Session Idle:** The time a client-specific session can be idle.
+*   **Client Session Max:** The maximum time a client-specific session can exist.
+
+== Guided Exercise: Customizing Authentication Session Lifetimes
+
+In this exercise, you will modify the session settings for a specific realm to balance security requirements with user convenience.
+
+.Log in to the Admin Console.
+. Navigate to **Realm settings** in the left-hand menu.
+. Select the **Sessions** tab.
+. Locate the **SSO Session Idle** field and set it to `30 minutes`.
+. Locate the **SSO Session Max** field and set it to `10 hours`.
+. Click **Save**.
+
+[NOTE]
+====
+Changing these values applies to all users within the realm. Ensure that your security policies align with the business requirements for session duration.
+====
+
+== Troubleshooting Session Issues
+
+If users report being logged out unexpectedly, consider the following:
+
+1.  **Cache Configuration:** Authentication sessions are stored in the database but managed via caches (`sessions` and `clientSessions`). If these caches are misconfigured or under-provisioned in a clustered environment, session data may be lost.
+2.  **Token Revocation:** If a client application performs a token revocation, Keycloak immediately destroys the associated client session. Verify if your application is triggering unnecessary revocation calls.
+3.  **Clock Skew:** Ensure all nodes in your Keycloak cluster have synchronized clocks. Significant clock drift can cause session validation to fail prematurely.
+
+== Lab: Authentication and Authorization
+
+In the broader context of this module, you will now observe how these session configurations impact the user's flow.
+
+1.  Open a browser and initiate a login flow for a test client.
+2.  Observe the session in the **Sessions** tab of the Admin Console for that user.
+3.  Modify the **SSO Session Idle** time to a very low value (e.g., `1 minute`).
+4.  Authenticate and remain idle for longer than 60 seconds.
+5.  Attempt to access a protected resource. You should be prompted to re-authenticate, confirming that the session has expired per your custom configuration.

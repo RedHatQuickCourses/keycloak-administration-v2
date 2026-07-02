@@ -1,0 +1,85 @@
+#  Extending Keycloak functionality
+
+= Extending Red Hat build of Keycloak Functionality
+
+Red Hat build of Keycloak is designed to be highly modular. While the platform provides comprehensive built-in features, organizations often have unique requirements—such as custom token validation, proprietary authentication logic, or unique data synchronization needs. Extending Keycloak allows you to integrate these custom behaviors seamlessly into the identity lifecycle.
+
+== Understanding Extensibility
+
+You can extend Keycloak primarily by implementing its Service Provider Interface (SPI). An SPI is a contract that allows you to plug in custom code to replace or augment default Keycloak behaviors.
+
+Key areas for extension include:
+*   **Authentication:** Adding custom execution steps to authentication flows.
+*   **User Storage:** Implementing custom providers to bridge Keycloak with legacy databases or external services.
+*   **Protocol Mappers:** Transforming or adding custom claims to identity/access tokens.
+*   **Adapters:** Creating custom client-side adapters for specialized environments.
+
+== Custom Adapters
+
+In specific scenarios where the standard JavaScript adapter does not meet the requirements of your environment (e.g., non-browser environments or specialized frameworks), you can implement a custom adapter.
+
+To create a custom adapter, you must implement the `KeycloakAdapter` interface. This ensures that your implementation satisfies all the lifecycle methods expected by the Keycloak client library.
+
+=== Guided Exercise: Implementing a Custom Adapter
+
+In this exercise, you will create a skeleton implementation of a custom adapter using TypeScript to ensure type safety.
+
+.Prerequisites
+*   `keycloak-js` library installed in your project.
+
+.Procedure
+. Create a new file named `custom-adapter.ts`.
+. Define your adapter by implementing the `KeycloakAdapter` interface:
+
+[source,typescript]
+----
+import Keycloak, { KeycloakAdapter } from 'keycloak-js';
+
+// Implement the 'KeycloakAdapter' interface
+const MyCustomAdapter: KeycloakAdapter = {
+  async login(options) {
+    // Custom implementation for redirecting the user to the login page
+    console.log("Custom login logic triggered", options);
+  },
+  async logout(options) {
+    // Custom implementation for session termination
+    console.log("Custom logout logic triggered", options);
+  },
+  async register(options) {
+    // Custom implementation for registration flow
+    console.log("Custom registration logic triggered", options);
+  },
+  async accountManagement() {
+    // Custom implementation for account management
+    console.log("Custom account management logic triggered");
+  }
+};
+----
+
+. Initialize the Keycloak instance using your custom adapter:
+
+[source,typescript]
+----
+const keycloak = new Keycloak({
+  url: "http://keycloak-server",
+  realm: "my-realm",
+  clientId: "my-app"
+});
+
+// Pass the custom adapter into the init method
+await keycloak.init({
+  adapter: MyCustomAdapter,
+});
+----
+
+== Extending Authentication Flows
+
+While Red Hat build of Keycloak provides robust built-in flows, these are immutable. To apply specific business logic, you utilize the **Authentication SPI**.
+
+*   **Custom Authenticators:** You can create custom authenticators that require additional credentials (e.g., custom challenge/response, SMS, or hardware tokens).
+*   **Execution Requirements:** Once deployed as a provider, these authenticators appear in the Admin Console. You can then add them to your Authentication Flows and set them to `REQUIRED`, `ALTERNATIVE`, or `DISABLED` to alter the flow's behavior without modifying the core system.
+
+=== Best Practices for Extending Keycloak
+*   **Use the SPI:** Always prefer using the official SPIs over modifying internal code. This ensures your changes are compatible with future upgrades of the Red Hat build of Keycloak.
+*   **Performance Impact:** Custom providers run within the Keycloak server process. Ensure your custom code is optimized and does not introduce latency or memory leaks.
+*   **Logging:** Implement standard logging within your providers to ensure effective troubleshooting during authentication or integration failures.

@@ -1,0 +1,12 @@
+#  Introduce Red Hat build of Keycloak
+
+= Introduce Red Hat build of Keycloak
+
+Red Hat build of Keycloak is an enterprise-ready identity and access management solution designed to secure modern applications and services. It simplifies security by centralizing authentication and authorization, allowing developers to offload identity management from their applications.
+
+Key features and concepts include:
+
+*   **Support for Industry Standards:** Implements widely adopted protocols including OpenID Connect (OIDC), OAuth 2.0, and SAML 2.0 for seamless integration.
+*   **Centralized Security:** Provides a unified platform for managing user authentication, role-based access control (RBAC), and permission-based authorization.
+*   **Security Mechanisms:** Utilizes robust token-based authentication to ensure secure communication and credential isolation.
+*   **Architectural Flexibility:** Designed to support diverse operational environments, ranging from local development setups to scalable, containerized deployments on Red Hat OpenShift.

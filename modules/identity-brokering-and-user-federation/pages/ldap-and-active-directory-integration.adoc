@@ -1,0 +1,63 @@
+#  LDAP and Active Directory integration
+
+= LDAP and Active Directory Integration
+
+Red Hat build of Keycloak provides robust support for integrating existing enterprise identity stores, such as Lightweight Directory Access Protocol (LDAP) and Microsoft Active Directory (MSAD). By leveraging user federation, you can allow users to authenticate against their existing corporate credentials without migrating sensitive password data into the Keycloak database.
+
+== Understanding Identity Federation
+
+Identity federation in Keycloak acts as a bridge. Keycloak queries the external LDAP server to validate credentials during the authentication process. 
+
+Key benefits include:
+* **Centralized Identity:** Maintain a single source of truth for user identities.
+* **Seamless SSO:** Users utilize their existing enterprise credentials to access applications secured by Keycloak.
+* **Synchronization:** User attributes can be synchronized into Keycloak, allowing for local role-based access control (RBAC) mapping.
+
+== Configuring LDAP Integration
+
+To integrate an LDAP provider, you must configure the connection details, search filters, and user mapping attributes.
+
+[procedure]
+. Navigate to your target realm in the Admin Console.
+. Click **User Federation** in the left sidebar.
+. Click **Add federation provider** and select **ldap**.
+. Configure the connection settings:
+* **Edit Mode:** Choose *READ_ONLY* (recommended for strict directory control) or *WRITABLE* (if Keycloak should sync changes back to LDAP).
+* **Connection URL:** The URI of your LDAP server (e.g., `ldap://ldap.example.com:389`).
+* **Users DN:** The base DN where your users are located in the directory tree.
+* **Bind DN/Password:** Credentials Keycloak uses to search the directory.
+
+== Integrating Microsoft Active Directory
+
+When working with Microsoft Active Directory, specific mappers are often required to translate AD-specific attributes into standard OIDC/SAML claims. A common requirement is mapping the `userAccountControl` attribute, which handles user status flags like "disabled" or "locked."
+
+=== Guided Exercise: Adding an MS Active Directory Mapper via Admin CLI
+
+In this exercise, you will programmatically add an MS Active Directory user account control mapper using the `kcadm.sh` utility.
+
+[IMPORTANT]
+====
+Ensure you have the `parentId` of your existing LDAP provider. You can retrieve this by running `kcadm.sh get components -r <realm-name>`.
+====
+
+. Use the `kcadm.sh` tool to create the mapper component. Replace the `parentId` and `realm` values with your specific environment details.
+
+[source,bash]
+----
+$ kcadm.sh create components \
+  -r demorealm \
+  -s name=msad-user-account-control-mapper \
+  -s providerId=msad-user-account-control-mapper \
+  -s providerType=org.keycloak.storage.ldap.mappers.LDAPStorageMapper \
+  -s parentId=b7c63d02-b62a-4fc1-977c-947d6a09e1ea
+----
+
+*Explanation of the parameters:*
+* `-s providerId=msad-user-account-control-mapper`: Specifies the specific mapper type for AD account control.
+* `-s providerType=org.keycloak.storage.ldap.mappers.LDAPStorageMapper`: Defines the Java class responsible for LDAP mapping operations.
+* `-s parentId`: Links this mapper directly to the LDAP provider instance created in the previous configuration step.
+
+== Troubleshooting Tips
+* **Connectivity:** Use `ldapsearch` from the Keycloak host to verify that the LDAP/AD server is reachable and that your Bind DN credentials are correct.
+* **Mapping Mismatch:** If users appear in Keycloak but cannot log in, verify that the "Username LDAP Attribute" matches the attribute being queried (e.g., `sAMAccountName` for AD or `uid` for OpenLDAP).
+* **Logs:** Enable `DEBUG` level logging for the `org.keycloak.storage.ldap` category if synchronization fails.

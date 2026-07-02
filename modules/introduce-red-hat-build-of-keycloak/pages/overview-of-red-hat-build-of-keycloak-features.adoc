@@ -1,0 +1,45 @@
+#  Overview of Red Hat build of Keycloak features
+
+= Overview of Red Hat build of Keycloak features
+
+Red Hat build of Keycloak is an open-source Identity and Access Management (IAM) solution designed for modern applications and services. It provides a centralized security layer that allows developers and administrators to secure their applications with minimal effort, offloading the complexity of authentication and authorization to a dedicated, high-performance platform.
+
+== Core Features
+
+Red Hat build of Keycloak simplifies security through several integrated feature sets:
+
+* **Single Sign-On (SSO):** Users authenticate once to access multiple independent applications. This reduces password fatigue and centralizes session management.
+* **Identity Brokering:** Acts as a bridge between your applications and external Identity Providers (IdPs). It allows users to authenticate using existing accounts from third-party services like GitHub, Google, or enterprise-grade OIDC/SAML providers.
+* **User Federation:** Enables seamless integration with existing user directories, such as LDAP or Active Directory, without requiring a migration of user credentials to the Keycloak database.
+* **Standardized Protocols:** Full support for industry-standard identity protocols ensures interoperability across diverse technology stacks.
+* **Centralized Management:** A robust Admin Console and Admin CLI provide a unified interface to manage users, roles, permissions, and security policies.
+* **Customization and Extensibility:** Offers flexible templating for user-facing interfaces (Login, Registration) and an SPI (Service Provider Interface) for extending server functionality.
+
+== Supported Security Standards
+
+Red Hat build of Keycloak is built on a foundation of open standards, ensuring compatibility with modern web and mobile architectures. The platform implements the following key specifications:
+
+[cols="1,3", options="header"]
+|===
+| Standard | Description
+| *OpenID Connect (OIDC)* | An identity layer on top of the OAuth 2.0 protocol, allowing clients to verify the identity of the end-user.
+| *OAuth 2.0* | An authorization framework that enables third-party applications to obtain limited access to an HTTP service.
+| *SAML 2.0* | An XML-based standard for exchanging authentication and authorization data between an identity provider and a service provider.
+|===
+
+== Operational Concepts
+
+Red Hat build of Keycloak utilizes specific mechanisms to ensure secure identity management:
+
+* **Credential Isolation:** The system maintains a strict separation between the application and the user's credentials. Applications never touch raw user passwords; instead, they receive security tokens (typically JSON Web Tokens or JWTs) after successful authentication.
+* **Token-based Security:** Once a user is authenticated, Keycloak issues tokens that the application can use to verify user identity and scope of access (claims), reducing the need for constant back-and-forth communication with the identity server.
+* **Real-time Session Management:** Administrators can monitor and revoke user sessions globally across all connected applications directly from the Admin Console.
+
+== Knowledge Check
+
+[qanda]
+What is the primary benefit of using Identity Brokering in Red Hat build of Keycloak?::
+Identity Brokering allows your applications to delegate authentication to external providers (like social media or enterprise IdPs), enabling users to log in using their existing external accounts without requiring custom integration code for each provider.
+
+Which protocol is an identity layer built on top of OAuth 2.0?::
+OpenID Connect (OIDC).

@@ -1,0 +1,103 @@
+#  Lab: Red Hat build of Keycloak on Red Hat OpenShift
+
+= Lab: Red Hat build of Keycloak on Red Hat OpenShift
+
+This lab provides a hands-on environment to deploy and manage the Red Hat build of Keycloak within a Red Hat OpenShift cluster. You will utilize the Keycloak Operator to manage the lifecycle of your Keycloak instance.
+
+== Objectives
+* Deploy the Keycloak Operator on Red Hat OpenShift.
+* Provision a Keycloak instance using Custom Resources (CR).
+* Expose the Keycloak service via an OpenShift Route.
+* Verify the deployment and access the Admin Console.
+
+== Prerequisites
+* Access to a Red Hat OpenShift cluster with `cluster-admin` or appropriate namespace permissions.
+* The `oc` CLI tool authenticated to your cluster.
+* Helm installed (optional, if using Helm charts for operator deployment).
+
+== Lab Activities
+
+=== Step 1: Deploy the Keycloak Operator
+The Keycloak Operator automates the installation, configuration, and management of Keycloak on OpenShift.
+
+1. Create a new namespace for your Keycloak deployment:
++
+[source,bash]
+----
+oc new-project keycloak-system
+----
+
+2. Use the OpenShift Web Console or `oc` to install the **Keycloak Operator** from the OperatorHub.
+3. Once installed, verify the operator status:
++
+[source,bash]
+----
+oc get pods -n keycloak-system
+----
+
+=== Step 2: Provision a Keycloak Instance
+We define the Keycloak instance using a `Keycloak` Custom Resource. This instructs the operator to spin up the necessary pods, services, and configurations.
+
+1. Create a YAML file named `keycloak-instance.yaml`:
++
+[source,yaml]
+----
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: keycloak
+  namespace: keycloak-system
+spec:
+  instances: 1
+  image: quay.io/keycloak/keycloak:latest
+  db:
+    vendor: postgres
+    host: keycloak-db
+  hostname:
+    hostname: keycloak.apps.cluster-domain.com
+  tls:
+    certificateSecret:
+      secretName: keycloak-tls-secret
+----
+
+2. Apply the configuration:
++
+[source,bash]
+----
+oc apply -f keycloak-instance.yaml
+----
+
+=== Step 3: Expose and Verify
+After the operator reconciles the state, verify that the Keycloak pod is running.
+
+1. Check the deployment status:
++
+[source,bash]
+----
+oc get keycloak -n keycloak-system
+----
+
+2. Retrieve the initial admin credentials, which are stored in a generated Kubernetes secret:
++
+[source,bash]
+----
+oc get secret keycloak-initial-admin -n keycloak-system -o jsonpath='{.data.username}' | base64 --decode
+oc get secret keycloak-initial-admin -n keycloak-system -o jsonpath='{.data.password}' | base64 --decode
+----
+
+3. Access the route created by the operator. You can find the URL by running:
++
+[source,bash]
+----
+oc get route keycloak -n keycloak-system
+----
+
+== Troubleshooting Guidance
+* **Pod CrashLoopBackOff:** Check the logs using `oc logs <pod-name> -n keycloak-system`. Often, this indicates a failure to connect to the database or incorrect environment variables.
+* **Certificate Issues:** Ensure the `tls` secret referenced in the CR exists in the same namespace if you are providing custom certificates.
+* **Operator Latency:** After applying the CR, it may take a few minutes for the Operator to pull the images and provision the resources. Use `oc get events` to track progress.
+
+== Review Questions
+1. How does the Keycloak Operator simplify the update process for Keycloak compared to a manual installation?
+2. Why is it recommended to use a persistent database (like PostgreSQL) instead of the embedded H2 database in an OpenShift production environment?
+3. How can you modify the `Keycloak` Custom Resource to scale the number of instances for high availability?

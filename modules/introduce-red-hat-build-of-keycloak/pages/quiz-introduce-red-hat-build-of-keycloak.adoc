@@ -1,0 +1,47 @@
+#  Quiz: Introduce Red Hat build of Keycloak
+
+= Quiz: Introduce Red Hat build of Keycloak
+
+This quiz tests your foundational knowledge of the Red Hat build of Keycloak architecture, its purpose, and the identity standards it supports.
+
+[.quiz]
+--
+*Question 1: Which of the following identity and access management standards are natively supported by Red Hat build of Keycloak?*
+
+[options="interactive"]
+- [ ] A) OIDC (OpenID Connect)
+- [ ] B) OAuth 2.0
+- [ ] C) SAML 2.0
+- [ ] D) All of the above
+
+*Question 2: What is the primary purpose of using Red Hat build of Keycloak in an enterprise environment?*
+
+[options="interactive"]
+- [ ] A) To manage database migrations for containerized applications.
+- [ ] B) To provide centralized identity management, single sign-on (SSO), and secure access to applications and services.
+- [ ] C) To act as a direct replacement for a web server like Nginx or Apache.
+- [ ] D) To perform automated vulnerability scanning on the host operating system.
+
+*Question 3: In the context of Red Hat build of Keycloak, what does "credential isolation" imply?*
+
+[options="interactive"]
+- [ ] A) Storing all user passwords in a plain-text configuration file for easy administration.
+- [ ] B) Ensuring that client applications do not handle user credentials directly, reducing the attack surface.
+- [ ] C) Forcing every user to use the same shared credentials for every service.
+- [ ] D) Isolating the Keycloak database from the network to prevent all external logins.
+
+*Question 4: Which of the following is a core operational concept of Red Hat build of Keycloak?*
+
+[options="interactive"]
+- [ ] A) It relies on client applications to store user identities locally.
+- [ ] B) It acts as an Identity Provider (IdP) that issues security tokens (like JWTs) to authenticated users.
+- [ ] C) It is designed to be installed locally on every individual user's machine.
+- [ ] D) It is a hardware-based security module that does not require network connectivity.
+--
+
+== Answer Key
+
+* *Question 1:* **D) All of the above**. Red Hat build of Keycloak is designed as a modern IAM solution that supports industry-standard protocols including OIDC, OAuth 2.0, and SAML 2.0 to ensure interoperability.
+* *Question 2:* **B) To provide centralized identity management, single sign-on (SSO), and secure access**. By centralizing authentication, you reduce the need for users to remember multiple credentials and enable consistent security policies across services.
+* *Question 3:* **B) Ensuring that client applications do not handle user credentials directly**. This is a fundamental security benefit of OIDC and OAuth 2.0, where Keycloak manages the password exchange, and applications receive tokens instead of raw user credentials.
+* *Question 4:* **B) It acts as an Identity Provider (IdP) that issues security tokens (like JWTs) to authenticated users**. Keycloak authenticates the user and provides a token that the application can then trust to identify the user and their authorized permissions.

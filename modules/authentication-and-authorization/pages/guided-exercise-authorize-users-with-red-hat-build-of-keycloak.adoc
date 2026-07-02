@@ -1,0 +1,65 @@
+#  Guided Exercise: Authorize Users with Red Hat build of Keycloak
+
+= Guided Exercise: Authorize Users with Red Hat build of Keycloak
+
+In this exercise, you will learn how to implement Role-Based Access Control (RBAC) to authorize users within the Red Hat build of Keycloak. You will define roles, assign them to users, and verify that these permissions are correctly reflected in the user's security tokens.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak.
+* A configured Realm and at least one test user account.
+* Access to the Keycloak Admin Console.
+
+== Step 1: Create Realm Roles
+Roles define the set of permissions a user possesses within your application or system.
+
+1. Log in to the **Admin Console**.
+2. Select your target **Realm** from the dropdown menu in the top-left corner.
+3. In the left navigation menu, click **Realm roles**.
+4. Click **Create role**.
+5. Provide a name for the role (e.g., `app-user` or `manager`) and an optional description.
+6. Click **Save**.
+
+== Step 2: Assign Roles to Users
+Once roles are defined, you must map them to specific users to grant access.
+
+1. Navigate to **Users** in the left navigation menu.
+2. Click on the **Username** of the user you wish to authorize.
+3. Navigate to the **Role mapping** tab.
+4. Click **Assign role**.
+5. Select the role you created in the previous step (e.g., `manager`).
+6. Click **Assign**. The role is now associated with the user.
+
+== Step 3: Verifying Role Inclusion in Tokens
+When a user authenticates, Keycloak embeds these roles into the Identity and Access tokens. To verify:
+
+1. Use an OIDC debugger or a client application to initiate a login flow for the user.
+2. Once the login is successful, decode the received **Access Token** (JWT).
+3. Inspect the `realm_access` claim within the payload.
+4. You should see your defined role listed under the `roles` array:
++
+[source,json]
+----
+"realm_access": {
+  "roles": [
+    "manager",
+    "offline_access",
+    "uma_authorization"
+  ]
+}
+----
+
+== Step 4: Configure Client-Level Authorization (Optional)
+If your application requires specific permissions separate from global realm roles, use Client Roles:
+
+1. Navigate to **Clients** in the left menu.
+2. Select your target **Client**.
+3. Navigate to the **Roles** tab within the client configuration.
+4. Create a client-specific role.
+5. Assign this role to a user via the **User > Role mapping** screen, ensuring the "Filter by clients" toggle is enabled.
+
+== Troubleshooting Tips
+* **Token Refresh:** If you update a user's role while they have an active session, they must re-authenticate or refresh their token for the changes to take effect in their access token.
+* **Role Scopes:** Ensure your Client Scopes include the `roles` mapper. By default, the `roles` protocol mapper is included in the `openid` scope, which automatically adds realm and client roles to the token.
+
+== Summary
+You have successfully defined roles, mapped them to a user, and confirmed their presence in the security token. This setup allows your downstream applications to perform authorization checks based on the `realm_access` claims provided by Keycloak.

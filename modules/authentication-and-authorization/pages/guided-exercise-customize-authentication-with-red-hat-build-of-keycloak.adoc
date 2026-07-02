@@ -1,0 +1,58 @@
+#  Guided Exercise: Customize authentication with Red Hat build of Keycloak
+
+= Guided Exercise: Customize authentication with Red Hat build of Keycloak
+
+In this exercise, you will modify the default authentication behavior of your realm to enhance security. By default, Red Hat build of Keycloak provides a "Browser" flow that handles standard user login. We will customize this flow to introduce additional requirements, such as forcing a password reset or adding an execution step.
+
+== Prerequisites
+
+* Red Hat build of Keycloak 26.6 installed and running.
+* Access to the Admin Console with administrative privileges.
+* A realm configured with at least one test user.
+
+== Task 1: Create a Custom Authentication Flow
+
+Rather than modifying the built-in "Browser" flow directly (which is considered best practice to preserve defaults), you will duplicate it and create a custom version.
+
+1. Log in to the **Admin Console**.
+2. Select your target realm from the top-left dropdown.
+3. In the left navigation menu, click **Authentication**.
+4. Locate the **Browser** flow.
+5. Click the **Action menu** (three dots) next to the Browser flow and select **Duplicate**.
+6. Name the flow `Custom-Secure-Browser` and click **Save**.
+
+== Task 2: Adding an Authentication Execution
+
+We will now add a "Terms and Conditions" requirement to the authentication flow to ensure users acknowledge security policies before accessing the application.
+
+1. Within your `Custom-Secure-Browser` flow, locate the **Browser Forms** execution.
+2. Click **Add step** in the Browser Forms section.
+3. From the list, select **Terms and Conditions** and click **Add**.
+4. Set the requirement for the new **Terms and Conditions** step to **Required**.
+5. Ensure the step is positioned appropriately (usually placed after the username/password forms).
+
+== Task 3: Binding the Custom Flow
+
+Now that the flow is defined, you must inform the realm to use this flow for browser-based logins.
+
+1. Navigate back to the **Authentication** tab.
+2. Click the **Action menu** next to the `Custom-Secure-Browser` flow.
+3. Select **Bind flow**.
+4. In the dialog, select **Browser Flow** from the dropdown and click **Save**.
+
+== Task 4: Testing the Customization
+
+1. Open a new Incognito/Private browser window.
+2. Navigate to your application or the Account Console login page.
+3. Enter your test user credentials.
+4. **Verification:** You should now be presented with a Terms and Conditions screen after entering your credentials, confirming that your custom authentication flow is active.
+
+== Troubleshooting
+
+* **Flow not triggering:** Ensure the `Custom-Secure-Browser` flow is correctly bound to the "Browser Flow" binding in the Authentication tab.
+* **Locked out of Admin Console:** If you make a mistake and lock your own login access, you can revert to the default flow using the `kcadm.sh` CLI tool or by temporarily creating a new realm with default settings to reset the binding.
+
+[TIP]
+====
+To further enhance security, consider adding **OTP (One-Time Password)** or **WebAuthn** as a "Required" step in this flow to implement Multi-Factor Authentication (MFA) for all users in the realm.
+====

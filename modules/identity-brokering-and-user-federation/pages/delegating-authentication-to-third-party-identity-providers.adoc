@@ -1,0 +1,60 @@
+#  Delegating authentication to third-party identity providers
+
+= Delegating Authentication to Third-Party Identity Providers
+
+In modern distributed architectures, maintaining separate user credentials for every application creates friction for users and management overhead for administrators. Red Hat build of Keycloak addresses this through **Identity Brokering**, a mechanism that allows you to delegate authentication and authorization to external Identity Providers (IdPs).
+
+== Conceptual Overview
+
+An Identity Broker acts as an intermediary service. Instead of forcing a user to register locally within your Keycloak realm, the broker redirects the user to a trusted external entity to verify their identity. Once the external IdP validates the user, it sends a token (or assertion) back to Keycloak, which then grants the user access to your internal services.
+
+This approach offers several strategic benefits:
+* **Improved User Experience:** Users can authenticate using accounts they already possess (e.g., Google, GitHub, or a corporate partner's IdP).
+* **Credential Isolation:** Your local applications never handle the user's external credentials directly.
+* **Centralized Management:** You manage the trust relationship with the external IdP in one place, rather than configuring every individual application to talk to every external provider.
+
+== Supported Protocols
+
+Red Hat build of Keycloak supports delegation through standardized protocols. When configuring a third-party provider, you must select the protocol that the external IdP supports:
+
+* **SAML v2.0:** Commonly used in enterprise environments to facilitate Single Sign-On (SSO) between business partners.
+* **OpenID Connect (OIDC) / OAuth 2.0:** The industry standard for modern web and mobile applications, utilized by virtually all major social providers (Google, Facebook) and cloud identity services.
+
+== Guided Exercise: Integrating an External Identity Provider
+
+In this exercise, you will configure an external OIDC-based identity provider to delegate user authentication.
+
+=== Prerequisites
+* Access to a running Red Hat build of Keycloak instance.
+* An account with an external OIDC provider (e.g., Google Cloud Console or a mock OIDC server).
+
+=== Step-by-Step Configuration
+
+. **Access the Admin Console:**
+   Log in to your Keycloak Admin Console and select the target **Realm**.
+. **Navigate to Identity Providers:**
+   In the left-hand menu, click **Identity providers**.
+. **Add Provider:**
+   Click the **Add provider** dropdown and select the desired protocol (e.g., **OpenID Connect**).
+. **Configure Provider Details:**
+   Enter the required metadata provided by your external IdP:
+   * **Alias:** A unique identifier for the provider (e.g., `google-idp`).
+   * **Client ID:** The ID issued by the external provider.
+   * **Client Secret:** The secret key associated with your Client ID.
+   * **Discovery Endpoint:** The URL provided by the external IdP to automatically fetch configuration endpoints.
+. **Save and Verify:**
+   Click **Save**. Keycloak will generate a **Redirect URI**. Copy this URI and paste it into your external IdP’s configuration (e.g., Google’s "Authorized redirect URIs" field).
+
+== Lab: Authenticating via a Third-Party IdP
+
+[IMPORTANT]
+====
+Ensure that the "First Login Flow" is configured correctly in the Identity Provider settings. This flow determines how Keycloak handles users who are authenticating for the first time via the external provider (e.g., automatically creating a local user account or forcing a manual review).
+====
+
+**Activity:**
+1. Open your application URL in an incognito/private browser window.
+2. Observe the login page; you should see the name of your configured Identity Provider (e.g., "Sign in with Google").
+3. Click the provider button and follow the external login prompts.
+4. Once authenticated by the third-party, verify that you are successfully redirected back to the application and automatically logged in.
+5. Check the **Users** section in the Admin Console to confirm that the user has been successfully provisioned within your realm.

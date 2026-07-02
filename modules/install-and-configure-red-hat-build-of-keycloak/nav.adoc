@@ -1,0 +1,8 @@
+* xref:install-and-configure-red-hat-build-of-keycloak.adoc[]
+** xref:development-mode-installation-requirements.adoc[]
+** xref:admin-console-exploration-and-configuration.adoc[]
+** xref:admin-cli-operations.adoc[]
+** xref:guided-exercise-red-hat-build-of-keycloak-installation.adoc[]
+** xref:guided-exercise-explore-and-configure-the-admin-console.adoc[]
+** xref:guided-exercise-red-hat-build-of-keycloak-admin-cli.adoc[]
+** xref:lab-install-red-hat-build-of-keycloak.adoc[]

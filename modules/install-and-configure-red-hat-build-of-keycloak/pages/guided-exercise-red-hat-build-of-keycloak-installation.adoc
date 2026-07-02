@@ -1,0 +1,70 @@
+#  Guided Exercise: Red Hat build of Keycloak Installation
+
+= Guided Exercise: Red Hat build of Keycloak Installation
+
+In this exercise, you will perform a development-mode installation of the Red Hat build of Keycloak. This environment is ideal for initial exploration, testing, and learning the core administrative concepts.
+
+== Prerequisites
+* A system with Java 17 or later installed.
+* Access to the Red Hat build of Keycloak distribution (ZIP or TAR file).
+* Network access to allow binding to the local loopback address.
+
+== Step 1: Extracting the Distribution
+Before running the server, you must extract the downloaded distribution to a preferred directory.
+
+1. Open your terminal.
+2. Navigate to your desired installation directory (e.g., `/opt/keycloak` or your local home directory).
+3. Extract the archive:
++
+[source,bash]
+----
+# For .tar.gz files
+tar -xzf keycloak-22.0.x.tar.gz
+
+# For .zip files
+unzip keycloak-22.0.x.zip
+----
+
+== Step 2: Starting in Development Mode
+Red Hat build of Keycloak provides a "development" mode that is pre-configured with default settings, including an embedded H2 database and self-signed certificates.
+
+1. Navigate into the extracted `bin` directory.
+2. Start the server using the `start-dev` command:
++
+[source,bash]
+----
+./kc.sh start-dev
+----
+
+[NOTE]
+====
+The `start-dev` flag is strictly for development and testing. It automatically sets the hostname to localhost and enables HTTP, which is insecure for production environments.
+====
+
+== Step 3: Verifying the Installation
+Once the server logs indicate that the service has started successfully, verify that the instance is reachable.
+
+1. Open your web browser.
+2. Navigate to: `http://localhost:8080`
+3. You should see the **Welcome to Keycloak** landing page.
+
+== Step 4: Creating the Initial Admin User
+The server does not ship with a pre-created administrator account for security reasons. You must create the initial account through the Admin Console or the command line.
+
+1. On the landing page, click the **Administration Console** link.
+2. Because no users exist, the console will prompt you to create an initial admin account.
+3. Fill in the required fields:
+* **Username**: `admin`
+* **Password**: `your-secure-password`
+* **Password Confirmation**: `your-secure-password`
+4. Click **Create**.
+5. Once created, click the **Back to Administration Console** link to log in with your new credentials.
+
+== Troubleshooting
+If the server fails to start, check the following:
+* **Port Conflict**: By default, Keycloak binds to port `8080`. Ensure no other services (like Apache or Tomcat) are using this port. You can change the port using the `--http-port` flag.
+* **Java Version**: Ensure `java -version` returns version 17 or higher.
+* **Logs**: Check the logs directory (`/data/log`) if the startup process terminates unexpectedly.
+
+== Summary
+You have successfully deployed a development instance of the Red Hat build of Keycloak. In the next section, we will explore the Admin Console and perform initial configuration tasks.

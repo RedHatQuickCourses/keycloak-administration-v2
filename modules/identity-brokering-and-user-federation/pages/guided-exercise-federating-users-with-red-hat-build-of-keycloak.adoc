@@ -1,0 +1,57 @@
+#  Guided Exercise: Federating Users with Red Hat build of Keycloak
+
+= Guided Exercise: Federating Users with Red Hat build of Keycloak
+
+In this exercise, you will connect Red Hat build of Keycloak to an external User Federation provider. This allows you to manage users in an existing LDAP directory while leveraging Keycloak’s advanced authentication features.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak.
+* Access to the Admin Console.
+* An accessible LDAP server (e.g., OpenLDAP or Active Directory).
+
+== Task 1: Create an LDAP User Federation Provider
+
+In this task, you will configure Keycloak to communicate with your LDAP directory.
+
+. Log in to the Keycloak Admin Console.
+. Select your target realm from the top-left dropdown menu.
+. In the left navigation menu, click **User Federation**.
+. Click the **Add provider** dropdown and select **ldap**.
+. Configure the following fields based on your LDAP infrastructure:
+* **Console Display Name:** `My-Corporate-LDAP`
+* **Import Users:** `ON` (This copies LDAP users into the local Keycloak database).
+* **Connection URL:** `ldap://<ldap-server-hostname>:<port>`
+* **Users DN:** `ou=users,dc=example,dc=com` (The base DN for your users).
+* **Bind DN:** `cn=admin,dc=example,dc=com` (The DN used to bind to the LDAP server).
+* **Bind Credential:** `********` (The password for the Bind DN).
+. Click **Save**.
+
+== Task 2: Verify Connection and Test Synchronization
+
+Before finalizing, verify that Keycloak can successfully communicate with the LDAP server.
+
+. Within the `My-Corporate-LDAP` provider configuration, click the **Connection** tab.
+. Click **Test connection**. If successful, a confirmation message appears.
+. Click **Test authentication** to ensure the Bind credentials are correct.
+. Navigate to the **Mappers** tab.
+. Click **Add mapper** and select **By template**.
+. Select common mappers like `username`, `email`, and `first name` to ensure user attributes map correctly to Keycloak attributes.
+
+== Task 3: Import and Verify Users
+
+Now that the connection is established, you will verify the visibility of federated users.
+
+. In the left navigation menu, click **Users**.
+. Click **View all users**.
+. Look for users originating from the LDAP source.
+    * *Note:* If you selected **Import Users**, these users are now searchable in the Keycloak database.
+. Select an imported user. Note the **IDP Link** field, which indicates the user is federated via the LDAP provider.
+
+== Troubleshooting Tips
+
+* **Connectivity Issues:** Ensure your Keycloak server has network reachability to the LDAP port (typically 389 or 636 for LDAPS).
+* **Permission Denied:** Verify that the **Bind DN** has sufficient read permissions on the **Users DN** subtree.
+* **Sync Errors:** If users are not appearing, click the **Settings** tab in your LDAP provider and click **Synchronize all users** to trigger a manual import.
+
+== Summary
+You have successfully configured an identity provider to federate users into Red Hat build of Keycloak. This setup allows you to maintain a single source of truth for user identities while providing centralized access control via Keycloak.

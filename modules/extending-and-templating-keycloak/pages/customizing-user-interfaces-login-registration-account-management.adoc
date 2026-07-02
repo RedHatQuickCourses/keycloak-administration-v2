@@ -1,0 +1,65 @@
+#  Customizing user interfaces (Login, Registration, Account Management)
+
+= Extending and Templating Keycloak: Customizing User Interfaces
+
+Red Hat build of Keycloak (RHBK) provides a powerful templating engine that allows organizations to align the user experience with their corporate branding and specific functional requirements. By customizing themes, you can modify the look and feel of login, registration, and account management screens without altering the core business logic of your applications.
+
+== Understanding Keycloak Themes
+
+Keycloak uses a theme-based architecture to control the UI. A theme is a collection of templates (FreeMarker), styles (CSS), and resources (images, scripts) that define how users interact with the Identity and Access Management (IaM) system.
+
+The primary theme types include:
+*   **Login Theme:** Governs the login, OTP, registration, and forgotten password pages.
+*   **Account Theme:** Governs the user's personal account management console.
+*   **Email Theme:** Governs the automated emails sent by Keycloak (e.g., password reset, identity verification).
+
+== Dynamic Form Rendering and Validation
+
+Modern Keycloak implementations leverage the User Profile SPI, which shifts UI customization from static template editing to dynamic schema-based rendering.
+
+*   **Declarative Attributes:** Instead of hardcoding fields into FreeMarker templates, you define user attributes in the Admin Console.
+*   **Dynamic Rendering:** RHBK automatically renders registration, update profile, and account management forms based on your defined attributes.
+*   **Built-in Validation:** You can apply validation rules (e.g., regex patterns, minimum length, required fields) per attribute. This ensures data integrity without requiring custom Java code for simple form logic.
+
+== Guided Exercise: Customizing the Login Theme
+
+In this exercise, you will create a custom theme directory and override the default login page.
+
+[discrete]
+=== Prerequisites
+* A running instance of Red Hat build of Keycloak.
+* Access to the file system where Keycloak is deployed.
+
+[discrete]
+=== Step 1: Create the Theme Directory
+1. Navigate to the `themes/` directory in your Keycloak installation.
+2. Create a new directory for your custom theme: `mkdir -p mycompany/login`.
+3. Create a `theme.properties` file inside `mycompany/login/`:
+[source,properties]
+----
+parent=keycloak
+import=common/keycloak
+----
+
+[discrete]
+=== Step 2: Override the Login Template
+1. Copy the default login template to your custom directory:
++
+`cp themes/keycloak/login/login.ftl themes/mycompany/login/login.ftl`
+
+2. Edit `themes/mycompany/login/login.ftl` to add your company branding or custom HTML elements.
+
+3. To apply the theme, log in to the **Admin Console**:
+    * Navigate to **Realm Settings** > **Themes**.
+    * Select your new theme (`mycompany`) under the **Login Theme** dropdown.
+    * Click **Save**.
+
+== Best Practices for Templating
+
+*   **Use Parent Themes:** Always inherit from the `keycloak` theme using the `parent` property. This ensures your theme receives security patches and feature updates automatically.
+*   **Leverage CSS Variables:** Use CSS variables defined in the base theme to ensure consistent styling while minimizing the amount of custom CSS code you need to maintain.
+*   **Avoid Business Logic in Templates:** Use templates strictly for display. If you need complex logic, implement a custom `Authenticator` (via the Authentication SPI) rather than forcing logic into FreeMarker.
+*   **Dynamic Forms:** Prioritize the User Profile configuration in the Admin Console over modifying templates to ensure your forms remain maintainable as user requirements evolve.
+
+== Summary
+Customizing the user interface in Red Hat build of Keycloak allows for seamless integration with existing organizational branding. By utilizing the dynamic User Profile system and the robust FreeMarker templating engine, you can create a secure, branded, and intuitive experience for your users while keeping the underlying authentication logic clean and maintainable.

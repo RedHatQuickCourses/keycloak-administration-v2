@@ -1,0 +1,76 @@
+#  Configuration and management on OpenShift
+
+= Configuration and management on OpenShift
+
+Once the Red Hat build of Keycloak is deployed on Red Hat OpenShift, ongoing configuration and management are essential to ensure the stability, security, and scalability of your identity and access management (IAM) infrastructure.
+
+== Operational Management on OpenShift
+
+Managing Red Hat build of Keycloak in a containerized environment shifts the focus from traditional server maintenance to Kubernetes-native operations. Key configuration aspects include:
+
+*   **Custom Resource Definitions (CRDs):** Red Hat build of Keycloak on OpenShift is typically managed via the Keycloak Operator. You manage the lifecycle of your Keycloak instances by updating the `Keycloak` Custom Resource (CR).
+*   **Secret Management:** Sensitive data, such as database credentials and TLS certificates, must be stored in OpenShift `Secrets` and referenced within your Keycloak deployment manifests.
+*   **Horizontal Scaling:** Use the OpenShift Horizontal Pod Autoscaler (HPA) to scale the number of Keycloak pods based on CPU or memory utilization.
+*   **Persistence:** Ensure that your underlying database (such as PostgreSQL) uses `PersistentVolumeClaims` (PVCs) to maintain state across pod restarts or redeployments.
+
+== Guided Exercise: Configuring Keycloak on OpenShift
+
+This exercise guides you through verifying your deployment and updating configuration parameters using the OpenShift CLI.
+
+.Prerequisites
+* Ensure you are logged into your cluster via the CLI:
+[source,bash]
+----
+oc login https://api.ocp4.example.com:6443 -u admin -p redhat
+----
+
+.Step 1: Verify the deployment status
+Check that the Keycloak operator and your Keycloak instances are running correctly:
+[source,bash]
+----
+oc get pods -n rhsso
+----
+
+.Step 2: Update configuration via the Keycloak CR
+To modify Keycloak settings (e.g., changing the number of instances or environment variables), edit the Keycloak Custom Resource:
+[source,bash]
+----
+oc edit keycloak keycloak-instance -n rhsso
+----
+
+.Step 3: Managing Secrets
+If you need to rotate database credentials, update the corresponding Secret in the `rhsso` project:
+[source,bash]
+----
+oc create secret generic keycloak-db-secret \
+  --from-literal=username=keycloak \
+  --from-literal=password=newpassword \
+  --dry-run=client -o yaml | oc apply -f -
+----
+
+== Troubleshooting and Monitoring
+
+Effective management requires visibility into the Keycloak logs and metrics.
+
+*   **Log Access:** To troubleshoot authentication errors or deployment failures, inspect the pod logs:
++
+[source,bash]
+----
+oc logs -l app=keycloak -n rhsso
+----
+
+*   **Route Configuration:** Ensure that the OpenShift `Route` associated with your Keycloak instance is properly configured for TLS termination to ensure secure communication between your applications and the Keycloak server.
+
+[TIP]
+====
+Always verify your changes in a staging environment before applying them to production. Use `oc diff` to compare your local configuration files with the cluster state to prevent accidental configuration drift.
+====
+
+== Lab: Red Hat build of Keycloak on OpenShift
+
+In this lab, you will perform a maintenance task on your running Keycloak instance.
+
+1. **Task:** Scale your Keycloak deployment to two replicas.
+2. **Action:** Modify the `instances` field in your `Keycloak` Custom Resource.
+3. **Verification:** Confirm that two pods are running in the `rhsso` namespace using `oc get pods`.
+4. **Validation:** Access the Admin Console via the route URL and verify that the Keycloak instance reflects the updated configuration.

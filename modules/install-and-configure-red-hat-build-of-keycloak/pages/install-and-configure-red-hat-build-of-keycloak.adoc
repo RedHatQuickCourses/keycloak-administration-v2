@@ -1,0 +1,12 @@
+#  Install and Configure Red Hat build of Keycloak
+
+= Install and Configure Red Hat build of Keycloak
+
+Installing and configuring the Red Hat build of Keycloak 26.6 involves setting up the identity and access management server to manage user authentication and authorization. This process ensures the environment is prepared for securing applications using industry-standard protocols.
+
+Key installation and configuration tasks include:
+
+* **Environment Setup:** Preparing the infrastructure to meet the requirements for development or production deployments.
+* **Core Configuration:** Utilizing the Admin Console and Admin CLI to define realms, clients, and identity providers.
+* **System Management:** Managing authentication flows and user federation sources to integrate with existing identity stores such as LDAP or Active Directory.
+* **Operational Deployment:** Configuring the server for containerized environments, including deployment on Red Hat OpenShift.

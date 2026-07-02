@@ -1,0 +1,53 @@
+#  Single Sign-On standards (OIDC, OAuth 2.0, SAML 2.0)
+
+= Single Sign-On Standards (OIDC, OAuth 2.0, SAML 2.0)
+
+Single Sign-On (SSO) enables users to authenticate once and gain access to multiple independent applications. Red Hat build of Keycloak (RHBK) acts as the Identity and Access Management (IAM) system that orchestrates this trust relationship using standardized protocols.
+
+== Understanding SSO Protocols
+
+SSO relies on established protocols for the interaction between the user agent (typically a web browser), the secured applications, and the IAM system.
+
+=== OpenID Connect (OIDC) and OAuth 2.0
+While often discussed together, it is important to distinguish their roles:
+
+*   **OAuth 2.0:** Primarily an **authorization** framework. It allows a third-party application to obtain limited access to an HTTP service, either on behalf of a resource owner or by allowing the third-party application to obtain access on its own behalf.
+*   **OpenID Connect (OIDC):** An **authentication** layer built on top of the OAuth 2.0 framework. It allows clients to verify the identity of the end-user based on the authentication performed by an Authorization Server (like RHBK).
+
+OIDC was finalized in 2014 and is designed for modern web architectures. It is the preferred choice for mobile applications, smart devices, and Single Page Applications (SPAs) due to its lightweight nature.
+
+=== Security Assertion Markup Language (SAML) 2.0
+SAML 2.0 is a mature, XML-based standard for exchanging authentication and authorization data.
+
+*   **Design:** Descended from SOAP and web service messaging, it is more verbose than OIDC.
+*   **Mechanism:** It relies on the exchange of XML documents, known as *SAML Assertions*, which are digitally signed and encrypted to ensure integrity and confidentiality.
+*   **Usage:** SAML is deeply embedded in enterprise environments. It is ideal for traditional web applications where XML processing is already a standard requirement.
+
+[cols="1,1,1", options="header"]
+|===
+| Feature | OIDC | SAML 2.0
+| Data Format | JSON (JWT) | XML
+| Primary Use | AuthN + AuthZ | AuthN + AuthZ
+| Best for | Mobile, SPAs, Modern Web | Legacy Enterprise Apps
+| Maturity | Modern (2014) | Mature (2005)
+|===
+
+== Key Architectural Considerations
+
+When implementing SSO with RHBK, keep the following in mind:
+
+*   **Protocol Coexistence:** RHBK is highly flexible; it can support both OIDC and SAML within the same realm, allowing you to bridge modern mobile applications (OIDC) and legacy enterprise software (SAML) simultaneously.
+*   **Credential Isolation:** By offloading authentication to the RHBK server, the individual applications never handle the user's primary credentials. Instead, they receive tokens (in OIDC) or assertions (in SAML) that verify the user's identity and provide necessary claims (like role mappings).
+*   **Communication Flow:** The SSO flow typically follows a "Redirect" pattern where the browser is sent to the IAM system, the user authenticates, and is then redirected back to the application with a proof of identity.
+
+== Summary Quiz: SSO Standards
+
+[qanda]
+Which protocol is better suited for Single Page Applications (SPAs) and mobile devices?::
+OIDC (OpenID Connect) is designed specifically for these architectures, whereas SAML presents challenges for non-browser-based or SPA environments.
+
+What is the primary difference between OAuth 2.0 and OIDC?::
+OAuth 2.0 is an authorization framework, while OIDC is an identity (authentication) layer built on top of OAuth 2.0.
+
+Why does SAML use XML?::
+SAML is derived from older web service standards (SOAP/XML) and uses XML documents to exchange assertions between the identity provider and the service provider.

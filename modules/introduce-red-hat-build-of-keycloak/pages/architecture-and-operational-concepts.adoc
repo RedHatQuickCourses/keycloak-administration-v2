@@ -1,0 +1,48 @@
+#  Architecture and operational concepts
+
+= Architecture and Operational Concepts
+
+The Red Hat build of Keycloak is designed as a high-performance, identity and access management (IAM) solution. Its architecture is built to support modern applications using standard protocols, ensuring that authentication and authorization are decoupled from the application logic.
+
+== Core Architectural Components
+
+Red Hat build of Keycloak operates based on a few fundamental architectural pillars:
+
+*   **Realms:** The primary unit of isolation. A realm acts as a "space" where you manage a set of users, credentials, roles, and groups. An application is typically mapped to one realm.
+*   **Clients:** These are the entities (applications or services) that request Keycloak to authenticate a user. Clients can be web applications, mobile apps, or backend services.
+*   **Identity Providers (IdPs):** Keycloak can act as an identity provider itself, or it can delegate authentication to third-party providers (like Google, GitHub, or an external OIDC/SAML server) through Identity Brokering.
+*   **User Federation:** Instead of storing all users in the Keycloak database, you can connect to external user stores like LDAP or Active Directory, allowing Keycloak to pull user data on demand.
+
+== Operational Concepts: Organizations and Multi-tenancy
+
+A key operational shift in modern Red Hat build of Keycloak is the concept of **Organizations**. 
+
+Organizations address complex Business-to-Business (B2B) use cases by enabling multi-tenancy within a single realm. While a realm provides global isolation, organizations provide a scoped, hierarchical structure for managing members from specific partners or customers.
+
+=== Hierarchical Group Management
+Within an organization, you can define groups to mirror your internal structure (e.g., `/Engineering/Backend` or `/Sales/NorthAmerica`). 
+*   **Isolation:** Organization groups are exclusive to their parent organization. 
+*   **Consistency:** Because they are scoped to the organization, you can have identical group paths in different organizations without conflict, as each possesses a unique internal identifier.
+
+== Security Token Mechanisms
+
+Keycloak relies on standard tokens to communicate identity and authorization data:
+
+*   **Identity Tokens (ID Tokens):** Provide information about the authenticated user (OIDC).
+*   **Access Tokens:** Used by applications to access protected resources. These contain claims that describe the user's roles and permissions.
+*   **Refresh Tokens:** Allow clients to obtain new access tokens without forcing the user to re-authenticate.
+
+By leveraging these tokens, Red Hat build of Keycloak ensures **credential isolation**. The application never handles the user's password; it only receives a digitally signed token that verifies the user's identity and their organizational context.
+
+== Summary of Operational Workflow
+
+1.  **Request:** A user attempts to access an application.
+2.  **Redirect:** The application redirects the user to the Keycloak instance.
+3.  **Authentication:** Keycloak authenticates the user (via local credentials, federated identity, or organizational brokering).
+4.  **Token Issuance:** Keycloak issues an ID and Access Token, which may include organization-specific claims.
+5.  **Authorization:** The application uses these tokens to enforce fine-grained access control based on the user's roles and organizational membership.
+
+[NOTE]
+====
+When integrating third-party partners, treat the **Organization** as the primary boundary for managing the member lifecycle, enabling a unified security experience across your entire business ecosystem.
+====

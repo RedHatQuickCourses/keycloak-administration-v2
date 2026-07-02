@@ -1,0 +1,90 @@
+#  Guided Exercise: Templating Keycloak
+
+= Guided Exercise: Templating Keycloak
+
+In this exercise, you will learn how to customize the Red Hat build of Keycloak user interface by overriding the default FreeMarker templates. This allows you to align the authentication pages, registration forms, and account management consoles with your organization's specific branding requirements.
+
+== Objectives
+* Understand the directory structure used for theme overrides.
+* Create a custom theme directory in the Red Hat build of Keycloak server.
+* Apply a custom logo and CSS to the login page.
+
+== Prerequisites
+* A running instance of the Red Hat build of Keycloak.
+* Access to the server's filesystem where Keycloak is installed.
+
+== Task 1: Create the Theme Directory Structure
+
+Keycloak uses a theme-based system to control the look and feel. Themes are stored in the `themes/` directory within your Keycloak installation.
+
+1. Navigate to the `themes/` directory in your Keycloak installation folder.
+2. Create a new directory for your custom theme, for example, `mycompany`:
++
+[source,bash]
+----
+mkdir -p themes/mycompany/login/resources/css
+mkdir -p themes/mycompany/login/resources/img
+mkdir -p themes/mycompany/login/theme
+----
+
+== Task 2: Configure the Theme Metadata
+
+Keycloak requires a `theme.properties` file to identify the theme and define its parent theme. By setting a parent, you only need to override the files you want to change, inheriting the rest from the default base theme.
+
+1. Create a file named `themes/mycompany/login/theme.properties` with the following content:
++
+[source,properties]
+----
+parent=base
+import=common/keycloak
+styles=css/styles.css
+----
+
+== Task 3: Customize the Branding
+
+Now, you will add a custom CSS file to override the default styles and add a logo.
+
+1. Create `themes/mycompany/login/resources/css/styles.css`:
++
+[source,css]
+----
+.login-pf body {
+    background-color: #f0f0f0;
+}
+
+.login-pf .login-pf-page .card-pf {
+    border-top: 5px solid #cc0000; /* Red Hat Red branding */
+}
+----
+
+2. Place your company logo image in `themes/mycompany/login/resources/img/logo.png`.
+
+== Task 4: Apply the Theme
+
+Once the files are in place, you must instruct Keycloak to use the new theme.
+
+1. Log in to the **Admin Console**.
+2. Select your **Realm** from the dropdown menu.
+3. In the left-hand menu, navigate to **Realm settings**.
+4. Click on the **Themes** tab.
+5. In the **Login theme** dropdown, select `mycompany`.
+6. Click **Save**.
+
+== Task 5: Verification
+
+1. Open your browser and navigate to your Keycloak login page.
+2. Observe that the background color has changed and the card styling now features the custom red border defined in your `styles.css`.
+3. If the changes do not appear, ensure that the cache is disabled in your `conf/keycloak.conf` file during development:
++
+[source,properties]
+----
+# Set to true for development, false for production
+http-relative-path=/
+# Disable caching for easier theme development
+cache=no
+----
+
+*Note: After changing `keycloak.conf`, you must restart the server for the changes to take effect.*
+
+== Summary
+You have successfully created a custom theme, applied organization-specific branding through CSS, and configured the Realm to utilize this theme. This modular approach allows for maintainable UI updates without modifying the core Red Hat build of Keycloak source code.

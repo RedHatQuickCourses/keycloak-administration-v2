@@ -1,0 +1,10 @@
+#  Comprehensive Review
+
+= Comprehensive Review
+
+The Comprehensive Review serves as the final assessment of the Red Hat build of Keycloak course. This module focuses on:
+
+* **Practical Application:** A hands-on, gradable lab activity that evaluates knowledge gained across all course objectives.
+* **Independent Problem Solving:** Participants must meet technical specifications without step-by-step guidance.
+* **Skill Validation:** Reinforces key security concepts, installation procedures, and configuration management.
+* **Guided Solutions:** Includes a comprehensive walk-through provided after the activity to ensure all course requirements are fully understood.

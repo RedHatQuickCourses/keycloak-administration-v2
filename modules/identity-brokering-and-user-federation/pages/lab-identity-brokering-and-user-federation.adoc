@@ -1,0 +1,66 @@
+#  Lab: Identity Brokering and User Federation
+
+= Lab: Identity Brokering and User Federation
+
+In this lab, you will configure Red Hat build of Keycloak to act as a central identity hub. You will implement external identity integration by configuring user federation to a directory service and enabling social login providers. This architecture allows you to consolidate authentication sources and streamline access management for your applications.
+
+== Objectives
+
+*   Configure an LDAP/Active Directory user federation provider.
+*   Configure a social login identity provider (e.g., GitHub or Google).
+*   Verify user authentication through brokered and federated sources.
+
+== Prerequisites
+
+*   A running instance of Red Hat build of Keycloak.
+*   Access to an LDAP/Active Directory server (or a mock service).
+*   Credentials for an external Identity Provider (for social login).
+
+== Lab Activities
+
+=== Task 1: Configure User Federation
+
+In this task, you will connect Keycloak to an LDAP directory to allow existing corporate users to authenticate without manual migration.
+
+1.  Log in to the **Keycloak Admin Console**.
+2.  Select the **Realm** you want to configure.
+3.  In the left navigation menu, click **User Federation**.
+4.  Click **Add provider** and select **ldap**.
+5.  Configure the following mandatory fields:
+    *   **Edit mode**: Select `READ_ONLY` (or `WRITABLE` if LDAP write-back is required).
+    *   **LDAP URL**: Enter the connection string (e.g., `ldap://ldap.example.com:389`).
+    *   **Users DN**: Define the base DN where users are stored.
+    *   **Bind Type**: Set to `simple`.
+6.  Click **Save**.
+7.  Click the **Test connection** button to ensure Keycloak can communicate with the directory.
+8.  Navigate to the **Users** tab and verify that federated users are visible (or searchable via the "View all users" button).
+
+=== Task 2: Configure Identity Brokering (Social Login)
+
+In this task, you will enable social login to delegate authentication to a trusted third party.
+
+1.  In the **Keycloak Admin Console**, navigate to **Identity providers**.
+2.  In the **Add provider** dropdown, select your desired provider (e.g., `GitHub`).
+3.  Enter the **Client ID** and **Client Secret** obtained from the external provider's developer portal.
+4.  Ensure the **Redirect URI** matches the one provided in the configuration screen; copy this into your social provider's application settings.
+5.  Click **Add**.
+6.  Navigate to your application and attempt a login. You should now see the social provider button on the login screen.
+
+== Verification
+
+To verify your configuration:
+
+1.  **Test LDAP:** Attempt to log in to the account console using a user account that exists only in your LDAP directory.
+2.  **Test Social Login:** Click the social provider button on the login page, authenticate via the external service, and confirm that the user is successfully redirected back to the Keycloak application with a valid session.
+3.  **Audit:** In the Admin Console, go to **Users** and verify that the federated/brokered users have been automatically created in the Keycloak local database cache (or linked accordingly).
+
+== Troubleshooting
+
+*   **LDAP Connection Refused:** Verify that the Keycloak server has network reachability to the LDAP server and that firewalls are not blocking port 389 (LDAP) or 636 (LDAPS).
+*   **Social Login Redirect Errors:** Ensure the `Redirect URI` in the identity provider configuration exactly matches the URI registered in the external provider's developer console (including trailing slashes).
+*   **Mapper Issues:** If user attributes (like email or name) are not appearing, review the **Mappers** tab for your identity provider/user federation to ensure the attribute names match your external schema.
+
+== Additional Resources
+
+*   link:https://access.redhat.com/documentation/en-us/red_hat_build_of_keycloak/[Red Hat build of Keycloak Documentation]
+*   xref:Identity-Brokering-and-User-Federation[Identity Brokering and User Federation Overview]

@@ -1,0 +1,63 @@
+#  User authentication flows
+
+= User Authentication Flows
+
+In the Red Hat build of Keycloak (RHBK), an **Authentication Flow** serves as a programmable engine that dictates the sequence of actions, checks, and interactions a user must complete during critical identity events, such as logging in, registering a new account, or resetting a credential.
+
+Rather than hard-coding security requirements, RHBK provides a modular framework where administrators can assemble "Execution" steps into a customized workflow.
+
+== Understanding Authentication Flows
+
+An authentication flow is a container that organizes various tasks, which we refer to as *Executions*. These executions can be configured as **Required**, **Alternative**, **Disabled**, or **Conditional**.
+
+=== Key Workflow Categories
+*   **Login Flow:** Defines the credential verification process (e.g., username/password, then OTP, then WebAuthn).
+*   **Registration Flow:** Governs the information gathering process for new users, including profile validation, terms and conditions acceptance, and bot-prevention mechanisms like reCAPTCHA.
+*   **Credential Reset Flow:** Manages the recovery process, ensuring users prove their identity before modifying security settings.
+
+== The Execution Logic
+The power of RHBK flows lies in how executions are handled:
+
+*   **Required:** The user must successfully complete this step to proceed.
+*   **Alternative:** The user can choose from a list of options (e.g., choose either Google Login or Username/Password).
+*   **Conditional:** The execution only runs if specific logic is met (e.g., only prompt for MFA if the user is connecting from an unknown IP address).
+
+---
+
+== Guided Exercise: Exploring Authentication Flows
+
+In this exercise, you will explore the default authentication flows provided by RHBK.
+
+=== Prerequisites
+*   Red Hat build of Keycloak installed and running.
+*   Access to the Admin Console with realm management privileges.
+
+=== Steps
+
+1.  **Access the Flows Console:**
+    *   Log in to your Keycloak Admin Console.
+    *   Select your target **Realm** from the dropdown menu.
+    *   In the left-hand navigation menu, click **Authentication**.
+
+2.  **Examine the Browser Flow:**
+    *   Locate the `browser` flow in the list. This is the default flow used for standard browser-based logins.
+    *   Click the **Actions** menu (three dots) and select **Config** or simply click the flow name to expand the execution list.
+    *   Observe the sequence of executions, such as "Cookie" (for existing sessions) and "Username Password Form."
+
+3.  **Create a New Custom Flow:**
+    *   Click the **Create flow** button at the top right.
+    *   Enter a name (e.g., `Custom-MFA-Flow`).
+    *   Select `Basic flow` as the Flow Type.
+    *   Click **Save**.
+
+4.  **Add Executions:**
+    *   Within your new flow, click **Add execution**.
+    *   Search for `OTP Form` and add it.
+    *   Set the status to **Required** if you wish to enforce MFA for all users using this flow.
+
+5.  **Assign the Flow:**
+    *   To use this new flow, go to the **Bindings** tab on the Authentication page.
+    *   Change the **Browser flow** setting from the default `browser` flow to your new `Custom-MFA-Flow`.
+
+== Troubleshooting Insight
+If you create a flow that prevents users from logging in (e.g., requiring an OTP that is not yet configured for a user), you can be locked out of the Admin Console. Always keep a separate administrative account or ensure your flow has a fallback mechanism (like "Alternative" options) before binding it to the Browser flow.

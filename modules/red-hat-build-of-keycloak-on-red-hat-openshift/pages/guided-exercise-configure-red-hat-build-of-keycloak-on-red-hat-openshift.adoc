@@ -1,0 +1,108 @@
+#  Guided Exercise: Configure Red Hat build of Keycloak on Red Hat OpenShift
+
+= Guided Exercise: Configure Red Hat build of Keycloak on Red Hat OpenShift
+
+In this exercise, you will configure an existing Red Hat build of Keycloak deployment on OpenShift to ensure it is optimized for production readiness and secure communication.
+
+== Prerequisites
+* A running Red Hat build of Keycloak instance deployed via the Keycloak Operator on OpenShift.
+* Access to the OpenShift CLI (`oc`) with cluster-admin or project-admin privileges.
+
+== Task 1: Configuring TLS/SSL Certificates
+By default, the Operator provides a self-signed certificate. For production environments, you must configure a custom certificate.
+
+1. Create a secret containing your TLS certificate and key:
++
+[source,bash]
+----
+oc create secret tls keycloak-tls-secret \
+  --cert=path/to/tls.crt \
+  --key=path/to/tls.key -n keycloak-namespace
+----
+
+2. Update the `Keycloak` Custom Resource (CR) to reference the secret:
++
+[source,yaml]
+----
+spec:
+  hostname:
+    hostname: sso.example.com
+  http:
+    tlsSecret: keycloak-tls-secret
+----
+
+== Task 2: Environment Configuration via Keycloak CR
+You can manage the configuration of your Keycloak instance by modifying the `Keycloak` Custom Resource. This ensures that your configuration is declarative and version-controlled.
+
+1. Edit your Keycloak CR:
++
+[source,bash]
+----
+oc edit keycloak keycloak-instance -n keycloak-namespace
+----
+
+2. Add environment variables to tune performance, such as setting the cache stack:
++
+[source,yaml]
+----
+spec:
+  instances: 3
+  additionalOptions:
+    - name: cache
+      value: ispn
+    - name: cache-stack
+      value: kubernetes
+----
+
+== Task 3: Configuring the Database
+While development mode uses the built-in H2 database, production environments require an external database like PostgreSQL.
+
+1. Ensure the secret containing database credentials exists:
++
+[source,bash]
+----
+oc create secret generic keycloak-db-secret \
+  --from-literal=username=keycloak \
+  --from-literal=password=password123
+----
+
+2. Update the CR to point to your database service:
++
+[source,yaml]
+----
+spec:
+  db:
+    vendor: postgres
+    host: postgres-db-service
+    usernameSecret:
+      name: keycloak-db-secret
+      key: username
+    passwordSecret:
+      name: keycloak-db-secret
+      key: password
+----
+
+== Task 4: Verifying the Configuration
+After updating the CR, the Operator will automatically trigger a rolling update of the Keycloak pods.
+
+1. Monitor the rollout:
++
+[source,bash]
+----
+oc rollout status statefulset/keycloak-instance -n keycloak-namespace
+----
+
+2. Confirm the new configuration is applied by checking the logs of the Keycloak pod:
++
+[source,bash]
+----
+oc logs -f keycloak-instance-0 -n keycloak-namespace
+----
+
+[TIP]
+====
+Always ensure that your `hostname` configuration matches the externally accessible route to prevent redirect mismatches during OIDC authentication flows.
+====
+
+== Summary
+You have successfully updated your Keycloak configuration on OpenShift by modifying the Custom Resource. This approach leverages the Operator pattern to manage the underlying stateful services, certificates, and database connections, ensuring a robust and reproducible environment.

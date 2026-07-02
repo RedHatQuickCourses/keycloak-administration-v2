@@ -1,0 +1,12 @@
+#  Red Hat build of Keycloak on Red Hat OpenShift
+
+= Red Hat build of Keycloak on Red Hat OpenShift
+
+Deploying the Red Hat build of Keycloak on Red Hat OpenShift leverages containerization to provide a scalable, highly available identity and access management solution. This integration ensures seamless authentication and authorization for applications running within the OpenShift ecosystem.
+
+Key aspects include:
+
+* **Containerized Deployment:** Running Keycloak as a containerized workload to ensure consistent environments and simplified lifecycle management.
+* **OpenShift Integration:** Utilizing OpenShift's native capabilities, such as routes, services, and secrets, for secure networking and configuration management.
+* **Scalability and Resilience:** Taking advantage of OpenShift's orchestration to handle identity traffic efficiently and maintain service availability.
+* **Configuration Management:** Implementing custom configurations and security policies tailored for containerized environments.

@@ -1,0 +1,51 @@
+#  Guided Exercise: Authenticate Users with Red Hat build of Keycloak
+
+= Guided Exercise: Authenticate Users with Red Hat build of Keycloak
+
+In this exercise, you will configure a basic authentication flow within the Red Hat build of Keycloak. Authentication is the process of verifying the identity of a user, and Red Hat build of Keycloak manages this through configurable authentication flows.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak (version 26.6).
+* Access to the Admin Console with administrative privileges.
+* A pre-configured realm (e.g., `demo-realm`).
+
+== Objectives
+* Configure a user within the realm.
+* Test the default browser-based login flow.
+* Observe the interaction between the application and the Keycloak authentication server.
+
+== Step 1: Create a Test User
+Before testing authentication, you must ensure at least one user exists in your target realm.
+
+1. Log in to the Keycloak Admin Console.
+2. Select your realm from the dropdown menu in the top-left corner.
+3. In the left navigation menu, click **Users**.
+4. Click **Add user**.
+5. Enter a username (e.g., `test-user`), an email address, and ensure "Email verified" is set to `Off` for testing purposes. Click **Create**.
+6. Select the **Credentials** tab for your new user.
+7. Click **Set password**.
+8. Enter a password, toggle **Temporary** to `Off` (to avoid a forced reset), and click **Save**. Confirm the change when prompted.
+
+== Step 2: Validate the Authentication Flow
+Red Hat build of Keycloak uses "Authentication Flows" to determine how a user proves their identity.
+
+1. In the Admin Console, click **Authentication** in the left navigation menu.
+2. Review the list of flows. The **Browser** flow is the default flow used for standard web application logins.
+3. Observe the executions within the Browser flow (e.g., `Cookie`, `Kerberos`, `Username Password Form`). This is the sequence of actions that occurs when a user attempts to log in.
+
+== Step 3: Test Authentication via the Account Console
+The Account Console is an excellent way to verify that your authentication configuration is functioning correctly.
+
+1. Open your browser and navigate to the Account Console URL:
+   `http://<KEYCLOAK_HOST>:<PORT>/realms/<REALM_NAME>/account/`
+2. You will be redirected to the Keycloak login page.
+3. Enter the credentials for `test-user` created in Step 1.
+4. If successful, you will be directed to the Account Management dashboard. This confirms that the identity provider successfully authenticated the user against the credentials stored in the database.
+
+== Troubleshooting Tips
+* **Login Failure:** If the user is rejected, check the **Events** tab in the Admin Console to view error logs associated with the failed login.
+* **Realm Mismatch:** Ensure you are testing against the specific realm where you created the user.
+* **Browser Cache:** If you are testing changes to authentication flows, open an Incognito/Private window to ensure no previous session cookies interfere with the testing process.
+
+== Summary
+You have successfully created a user and verified that the default authentication flow correctly authenticates the user against the Red Hat build of Keycloak. In the next section, you will learn how to secure specific resources by enforcing authorization policies for these authenticated users.

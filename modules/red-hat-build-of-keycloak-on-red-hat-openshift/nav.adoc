@@ -1,0 +1,6 @@
+* xref:red-hat-build-of-keycloak-on-red-hat-openshift.adoc[]
+** xref:deploying-keycloak-in-containerized-environments.adoc[]
+** xref:configuration-and-management-on-openshift.adoc[]
+** xref:guided-exercise-install-red-hat-build-of-keycloak-on-red-hat-openshift.adoc[]
+** xref:guided-exercise-configure-red-hat-build-of-keycloak-on-red-hat-openshift.adoc[]
+** xref:lab-red-hat-build-of-keycloak-on-red-hat-openshift.adoc[]

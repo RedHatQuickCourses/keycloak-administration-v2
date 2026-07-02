@@ -1,0 +1,60 @@
+#  Social login configuration
+
+= Social Login Configuration
+
+Social login, also known as social authentication, allows your users to authenticate into your applications using credentials from established third-party identity providers (IdPs). By leveraging Red Hat build of Keycloak (RHBK) as an identity broker, you eliminate the need for users to manage yet another set of credentials, while simultaneously reducing the burden of credential storage and management for your organization.
+
+== Overview of Social Identity Providers
+
+RHBK provides out-of-the-box support for numerous social networks. When you configure these providers, RHBK acts as the intermediary, delegating the authentication process to the trusted provider.
+
+Supported providers include:
+* **Social Networks:** Facebook, Twitter, LinkedIn, Instagram
+* **Developer Platforms:** GitHub, GitLab, Bitbucket, Stack Overflow
+* **Cloud & Enterprise:** Google, Microsoft, OpenShift v4, PayPal
+
+== Configuration Parameters
+
+When adding an identity provider, several key settings determine how the authentication flow and data synchronization behave. Understanding these parameters is crucial for a seamless integration:
+
+* **GUI Order:** A numerical value that defines the order in which the provider appears on the login page. Lower numbers appear first.
+* **First Login Flow:** Defines the authentication flow executed after the very first successful login. This is typically used to capture additional information or verify user identity.
+* **Post Login Flow:** Defines the flow executed after *every* successful login. This is useful for enforcing multi-factor authentication (MFA) or session-specific checks.
+* **Sync Mode:** Determines how user attributes are synchronized between the IdP and RHBK:
+    * `legacy`: Maintains standard RHBK behavior regarding mappers.
+    * `import`: Imports user data from the provider only during the initial account creation.
+    * `force`: Updates user data from the provider every single time the user logs in.
+
+== Procedure: Configuring a Social Identity Provider
+
+To enable social login for your realm, follow these steps. Note that while the steps below use Facebook as an example, the workflow remains consistent across all supported providers, though specific technical requirements (such as Client IDs and Secrets) vary per provider.
+
+. Navigate to the **Admin Console**.
+. In the left-hand menu, click **Identity Providers**.
+. Click the **Add provider** dropdown list.
+. Select the desired provider (e.g., **Facebook**).
+. On the configuration page, provide the required credentials (e.g., Client ID and Client Secret) obtained from your provider's developer portal.
+. Configure the **Sync Mode** and **Flow** settings as required by your security policy.
+. Click **Save**.
+
+[TIP]
+====
+If you are unsure what a specific setting does, hover over the question mark ( **?** ) symbol located next to each configuration option. This provides in-app context and descriptions for the field.
+====
+
+== Guided Exercise: Integrating Social Login
+
+=== Objective
+Configure GitHub as an identity provider to allow users to authenticate into your RHBK realm using their GitHub accounts.
+
+=== Steps
+1. **Prepare the Provider:** Log in to your GitHub account, navigate to **Settings > Developer Settings > OAuth Apps**, and create a new application. Note the `Client ID` and the `Client Secret` generated.
+2. **Add the Provider in RHBK:**
+   * Go to **Identity Providers** in your RHBK Admin Console.
+   * Select **GitHub** from the **Add provider** list.
+   * Enter the `Client ID` and `Client Secret` into the respective fields.
+3. **Set Sync Mode:** Set the **Sync Mode** to `import` to ensure user profile information is pulled into the local RHBK user database upon first login.
+4. **Verification:**
+   * Open an incognito browser window and navigate to your application's login page.
+   * Verify that a "Sign in with GitHub" button (or link) appears on the login screen.
+   * Attempt to log in to ensure the flow redirects correctly and authenticates the user.

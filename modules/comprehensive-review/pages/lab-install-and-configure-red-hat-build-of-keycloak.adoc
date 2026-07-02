@@ -1,0 +1,63 @@
+#  Lab: Install and Configure Red Hat build of Keycloak
+
+= Lab: Install and Configure Red Hat build of Keycloak
+
+In this lab, you will perform a development-mode installation of the Red Hat build of Keycloak. This environment allows you to explore the administration console and verify basic server functionality.
+
+[IMPORTANT]
+====
+This installation method is strictly for development and testing purposes. Development mode provides insecure defaults and should never be used in a production environment.
+====
+
+== Prerequisites
+* A system with `podman` installed and configured.
+* Access to the Red Hat Ecosystem Catalog (registry.redhat.io).
+* Sufficient permissions to pull container images and map local network ports.
+
+== Task 1: Installing the Server
+You will use the `start-dev` command to launch the Keycloak container. This command configures the initial administrator credentials via environment variables.
+
+1. Open your terminal.
+2. Execute the following command to pull the image and start the container:
+
+[source,bash,subs="attributes+"]
+----
+podman run --name mykeycloak \
+  -p 127.0.0.1:8080:8080 \
+  -e KC_BOOTSTRAP_ADMIN_USERNAME=admin \
+  -e KC_BOOTSTRAP_ADMIN_PASSWORD=change_me \
+  registry.redhat.io/rhbk/keycloak-rhel9:26.6 \
+  start-dev
+----
+
+3. Wait for the server to initialize. You should see logs indicating the server is listening on `0.0.0.0:8080`.
+
+== Task 2: Accessing the Admin Console
+Once the container is running, the Administration Console is available to manage your identity realm.
+
+1. Open your preferred web browser.
+2. Navigate to `http://localhost:8080`.
+3. Click on the **Administration Console** link.
+4. Log in using the credentials defined in the previous step:
+* **Username:** `admin`
+* **Password:** `change_me`
+
+== Task 3: Verifying the Configuration
+After logging in, perform a brief verification of the environment:
+
+1. Locate the **Master** realm dropdown in the top-left corner.
+2. Navigate to **Realm settings** to observe the default configuration parameters.
+3. Check the **Users** section to ensure you can view and add administrative user accounts.
+
+== Task 4: Cleaning Up
+When you have finished the lab, stop and remove the container to free up system resources:
+
+[source,bash]
+----
+podman stop mykeycloak
+podman rm mykeycloak
+----
+
+== Troubleshooting
+* **Port Conflict:** If port `8080` is already in use, modify the `-p` parameter in the command (e.g., `-p 127.0.0.1:8081:8080`) to use a different host port.
+* **Image Pull Error:** Ensure you are authenticated to the Red Hat registry by running `podman login registry.redhat.io` before attempting to pull the image.

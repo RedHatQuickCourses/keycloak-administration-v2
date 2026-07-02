@@ -1,0 +1,56 @@
+#  Admin Console exploration and configuration
+
+= Admin Console exploration and configuration
+
+The Red Hat build of Keycloak Admin Console provides a centralized, web-based interface for managing all aspects of the identity server. It allows administrators to configure realms, manage users, define client applications, and establish authentication policies without needing to interact directly with the underlying configuration files or the command-line interface.
+
+== Overview of the Admin Console
+
+The Admin Console is divided into several primary navigation areas that represent the hierarchical structure of a Keycloak deployment:
+
+*   **Realm Selector:** Located in the top left, this dropdown allows you to switch between different security realms. A realm is a space where you manage a set of users, credentials, roles, and groups.
+*   **Main Navigation Sidebar:** Contains the core management modules:
+    *   **Manage:** Handles day-to-day operations like Users, Groups, Roles, Clients, and Identity Providers.
+    *   **Configure:** Defines global settings, such as Realm Settings, Authentication Flows, Events, and User Federation.
+*   **Dashboard:** Provides a high-level view of recent events and system health once you are logged in.
+
+== Accessing the Admin Console
+
+To begin exploration, you must sign in to the Admin Console using the initial administrator credentials established during the installation process.
+
+.Guided Exercise: Explore and Configure the Admin Console
+[role="instruction"]
+. Navigate to the URL provided by your administrator (typically `http://localhost:8080/admin`).
+. Enter the initial administrator credentials (username and password) created during the initial setup.
+. Upon successful authentication, the **Master** realm dashboard displays.
+. Click on **Realm Settings** in the left-hand menu. 
+. Explore the tabs (General, Login, Email, Themes, etc.) to see the configurable options available for the current realm.
+
+== Configuration Concepts
+
+When configuring the Admin Console, it is important to understand the scope of your changes:
+
+*   **Realm-level configuration:** Most settings are scoped to a specific realm. For example, changing a theme or an authentication flow in the "Development" realm will not affect the "Production" realm.
+*   **Credential Isolation:** Administrators should always operate using the Principle of Least Privilege. Use the **Admin Console Access Control** features to ensure that administrative users have only the permissions necessary for their specific roles.
+
+== Hands-on Activity: Configuring Basic Realm Settings
+
+In this activity, you will perform a basic configuration task to familiarize yourself with the interface.
+
+[source,bash]
+.Steps to update Realm display name:
+----
+1. In the Admin Console, ensure the 'Master' realm is selected.
+2. Select 'Realm Settings' from the left navigation menu.
+3. Under the 'General' tab, locate the 'Display name' field.
+4. Enter a descriptive name (e.g., "Corporate Identity Provider").
+5. Click 'Save'.
+----
+
+[NOTE]
+====
+If you encounter issues accessing specific configuration sections, verify that your account has the appropriate `realm-admin` or `master-admin` roles assigned under the **Users > Role Mappings** section of the Admin Console.
+====
+
+== Next Steps
+Now that you have navigated the interface and performed a basic configuration, the next modules will cover using the Admin CLI to perform these same operations programmatically and managing identity brokering configurations.

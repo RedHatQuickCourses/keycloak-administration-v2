@@ -1,22 +1,33 @@
-= An Example Quick Course
+=  Red Hat build of Keycloak Administration and Security
 :navtitle: Home
 
 == Introduction
 
-Course Title: Course title FIXME
+Course Title:  Red Hat build of Keycloak Administration and Security
 
 Description:
 Course description FIXME
 
-Duration: pass:[<span class="course-total-duration" aria-live="polite">…</span>]
+Duration: FIXME hours
 
-== Objectives
+== Topics covered in this course
 
-On completing this course, you should be able to:
 
-* Observable, measurable objective...
-* Observable, measurable objective...
-* Observable, measurable objective...
+*  Introduce Red Hat build of Keycloak
+
+*  Install and Configure Red Hat build of Keycloak
+
+*  Authentication and Authorization
+
+*  Identity Brokering and User Federation
+
+*  Red Hat build of Keycloak on Red Hat OpenShift
+
+*  Extending and Templating Keycloak
+
+*  Comprehensive Review
+
+
 
 == Prerequisites
 

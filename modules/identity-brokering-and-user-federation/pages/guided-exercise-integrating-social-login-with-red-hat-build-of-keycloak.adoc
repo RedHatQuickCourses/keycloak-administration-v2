@@ -1,0 +1,49 @@
+#  Guided Exercise: Integrating Social Login with Red Hat build of Keycloak
+
+= Guided Exercise: Integrating Social Login with Red Hat build of Keycloak
+
+In modern web application development, users often prefer the convenience of using existing social media accounts to access services rather than creating new credentials. Red Hat build of Keycloak simplifies this by acting as an identity broker, allowing you to delegate authentication to third-party providers like Google, GitHub, or Facebook.
+
+In this exercise, you will configure an external identity provider to allow users to authenticate to your Keycloak-protected applications using their existing social credentials.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak (Development mode).
+* Access to the Keycloak Admin Console.
+* A registered developer account with a third-party provider (e.g., [Google Cloud Console](https://console.cloud.google.com/)).
+
+== Step 1: Create an OAuth 2.0 Client at the Identity Provider
+Before Keycloak can communicate with a social provider, you must register your application with that provider to obtain credentials.
+
+1. Log in to your chosen Identity Provider's developer portal (e.g., Google Cloud Console).
+2. Create a new **OAuth 2.0 Client ID**.
+3. Set the **Authorized Redirect URI** to the following format:
+   `https://<KEYCLOAK_HOST>/realms/<REALM_NAME>/broker/google/endpoint`
+4. Copy the generated **Client ID** and **Client Secret**. You will need these for the Keycloak configuration.
+
+== Step 2: Configure the Identity Provider in Keycloak
+Now, you will configure Keycloak to recognize the provider.
+
+1. Log in to the Keycloak Admin Console.
+2. From the **Realm** dropdown, select the realm you are using for your application.
+3. In the left-hand menu, click **Identity providers**.
+4. Click the **Add provider** dropdown and select your provider (e.g., **Google**).
+5. In the **Add identity provider** screen:
+   * **Client ID:** Paste the ID obtained in Step 1.
+   * **Client Secret:** Paste the secret obtained in Step 1.
+6. Click **Add**.
+
+== Step 3: Verify the Integration
+Once saved, you must ensure the integration is active and accessible to end-users.
+
+1. Navigate to the **Mappers** tab within your new Identity Provider configuration.
+2. By default, Keycloak maps essential user information (like email and username) from the provider to your local realm database. You can add additional mappers if you need to capture specific claims (e.g., profile picture or custom attributes).
+3. Open an Incognito window and navigate to your application's login page.
+4. You should now see the configured social provider button displayed under the standard login form.
+
+== Troubleshooting Tips
+* **Redirect URI Mismatch:** If the login fails immediately, ensure that the redirect URI configured in the Identity Provider matches the Keycloak endpoint exactly, including the protocol (HTTPS vs HTTP).
+* **Clock Skew:** Ensure your server time is synchronized. Identity providers may reject tokens if the time difference between the server and the provider is significant.
+* **Consent Screens:** Ensure that in your developer console, the OAuth consent screen is configured as "Published" or "Testing" with your user email added as a test user.
+
+== Summary
+You have successfully configured Red Hat build of Keycloak as an identity broker. Your users can now leverage social login, reducing the friction of onboarding and centralizing authentication management within your Keycloak environment.

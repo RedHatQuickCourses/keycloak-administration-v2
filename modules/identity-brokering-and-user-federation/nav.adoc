@@ -1,0 +1,7 @@
+* xref:identity-brokering-and-user-federation.adoc[]
+** xref:ldap-and-active-directory-integration.adoc[]
+** xref:delegating-authentication-to-third-party-identity-providers.adoc[]
+** xref:social-login-configuration.adoc[]
+** xref:guided-exercise-federating-users-with-red-hat-build-of-keycloak.adoc[]
+** xref:guided-exercise-integrating-social-login-with-red-hat-build-of-keycloak.adoc[]
+** xref:lab-identity-brokering-and-user-federation.adoc[]

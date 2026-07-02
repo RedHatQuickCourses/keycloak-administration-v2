@@ -1,10 +1,22 @@
-name: REPLACEREPONAME
-title: FIXME Course Title
-version: 1
+name: keycloak-administration-v2
+title:  Red Hat build of Keycloak Administration and Security
+version: 1.0.0
 nav:
 - modules/ROOT/nav.adoc
 - modules/LABENV/nav.adoc
-- modules/chapter1/nav.adoc
-- modules/chapter2/nav.adoc
-- modules/chapter3/nav.adoc
+
+- modules/introduce-red-hat-build-of-keycloak/nav.adoc
+
+- modules/install-and-configure-red-hat-build-of-keycloak/nav.adoc
+
+- modules/authentication-and-authorization/nav.adoc
+
+- modules/identity-brokering-and-user-federation/nav.adoc
+
+- modules/red-hat-build-of-keycloak-on-red-hat-openshift/nav.adoc
+
+- modules/extending-and-templating-keycloak/nav.adoc
+
+- modules/comprehensive-review/nav.adoc
+
 - modules/appendix/nav.adoc

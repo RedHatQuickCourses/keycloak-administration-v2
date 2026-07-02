@@ -1,0 +1,59 @@
+#  Guided Exercise: Explore and Configure the Admin Console
+
+= Guided Exercise: Explore and Configure the Admin Console
+
+The Red Hat build of Keycloak Admin Console is the central web-based interface for managing your identity and access management environment. This exercise guides you through the navigation and core configuration areas of the console.
+
+== Objectives
+* Access the Admin Console interface.
+* Navigate the primary navigation menu.
+* Identify the scope of Realms.
+* Configure basic settings for a realm.
+
+== Prerequisites
+* A running instance of Red Hat build of Keycloak.
+* Credentials for the initial administrator account created during installation.
+
+== Procedure
+
+=== 1. Accessing the Admin Console
+1. Open your web browser and navigate to the Keycloak URL (typically `http://localhost:8080`).
+2. Click the **Administration Console** link.
+3. Authenticate using your administrator username and password.
+
+=== 2. Navigating the Admin Console
+Once logged in, familiarize yourself with the layout:
+
+* **Realm Selector (Top Left):** Keycloak is multi-tenant. This dropdown allows you to switch between different security contexts (Realms). By default, you will see the `Master` realm.
+* **Primary Navigation (Left Sidebar):** This menu provides access to core management functions, including:
+    * **Configure:** Manage Realm settings, Clients, Identity Providers, and User Federation.
+    * **Manage:** Oversee Users, Groups, Roles, and Sessions.
+    * **Events:** View login and admin audit logs.
+
+=== 3. Exploring Realm Settings
+The `Master` realm is intended for administrative purposes. To configure your specific application environment, it is best practice to create a new realm.
+
+1. Hover over the **Realm Selector** at the top left.
+2. Click **Create realm**.
+3. Enter a name for your realm (e.g., `CorporateApp`) and click **Create**.
+4. In the left-hand menu, navigate to **Configure > Realm settings**.
+5. Observe the tabs available:
+    * **General:** Modify display names and login settings.
+    * **Login:** Enable/disable features like "Remember Me," "User registration," and "Forgot password."
+    * **Email:** Configure SMTP server settings to enable system-generated emails.
+    * **Themes:** Customize the look and feel of your login and account pages.
+
+=== 4. Configure Session and Token Settings
+1. While in **Realm settings**, click the **Tokens** tab.
+2. Review the default settings for:
+    * **SSO Session Idle:** The time a session can remain inactive.
+    * **SSO Session Max:** The maximum duration of a session.
+    * **Access Token Lifespan:** The duration of the JWT before it must be refreshed.
+3. Make a minor adjustment to the **Access Token Lifespan** (e.g., change it to 5 minutes) and click **Save**.
+
+== Troubleshooting
+* **Cannot see Realm Settings:** Ensure you are logged in with an account that has `manage-realm` permissions.
+* **Changes not taking effect:** Always ensure you have clicked the **Save** button at the bottom of the form after making configuration changes.
+
+== Additional Resources
+* For deep dives into granular permissions, refer to the *Admin Console Access Control* chapter in the official Red Hat build of Keycloak documentation.

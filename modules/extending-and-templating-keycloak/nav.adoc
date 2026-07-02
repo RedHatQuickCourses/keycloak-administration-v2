@@ -1,0 +1,4 @@
+* xref:extending-and-templating-keycloak.adoc[]
+** xref:customizing-user-interfaces-login-registration-account-management.adoc[]
+** xref:extending-keycloak-functionality.adoc[]
+** xref:guided-exercise-templating-keycloak.adoc[]

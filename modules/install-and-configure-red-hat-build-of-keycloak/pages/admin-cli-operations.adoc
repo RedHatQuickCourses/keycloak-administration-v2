@@ -1,0 +1,71 @@
+#  Admin CLI operations
+
+= Admin CLI operations
+
+The Red Hat build of Keycloak (RHBK) includes a powerful command-line utility, `kcadm.sh`, designed to automate administrative tasks. This tool acts as a wrapper around the Admin REST API, allowing administrators to perform CRUD (Create, Read, Update, Delete) operations without needing to navigate the web-based Admin Console.
+
+== Understanding the Admin CLI Architecture
+
+The Admin CLI is a Java-based utility that maps command-line arguments directly to the underlying REST API endpoints of the Keycloak server. By using `kcadm.sh`, you can script environment setups, automate user provisioning, and manage configurations in a reproducible manner.
+
+=== Usage Syntax
+
+The general structure for executing commands via the CLI is:
+
+[source,bash]
+----
+[rhsso@sso ~]$ kcadm.sh OPERATION ENDPOINT [ ARGUMENTS ]
+----
+
+*   **OPERATION**: The action to perform (`create`, `get`, `update`, `delete`, etc.).
+*   **ENDPOINT**: The target resource path in the Keycloak Admin REST API (e.g., `realms`, `users`, `groups`).
+*   **ARGUMENTS**: Specific parameters, such as JSON payloads or configuration flags.
+
+== Core Admin CLI Operations
+
+The utility supports several essential operations to facilitate lifecycle management of your identity environment:
+
+*   **CRUD Operations**: These map directly to HTTP verbs:
+    *   `create`: Maps to `POST` (e.g., creating a new realm or user).
+    *   `get`: Maps to `GET` (e.g., retrieving configuration data).
+    *   `update`: Maps to `PUT` (e.g., modifying existing resource attributes).
+    *   `delete`: Maps to `DELETE` (e.g., removing a user or client).
+*   **`config`**: Used to set up authentication credentials, target server URLs, and other environment-specific settings.
+*   **Role Management**: Specialized commands like `get-roles`, `add-roles`, and `remove-roles` simplify the mapping of permissions to users or groups.
+*   **`set-password`**: A convenient shorthand to update user credentials without constructing a full JSON update request.
+
+== Guided Exercise: Exploring Admin CLI Operations
+
+In this exercise, we will look at how to initialize the CLI environment and retrieve server information.
+
+=== Step 1: Configure the CLI session
+Before interacting with the server, you must authenticate your CLI session.
+
+[source,bash]
+----
+# Configure the server connection and authenticate
+[rhsso@sso ~]$ kcadm.sh config credentials --server http://localhost:8080/ --realm master --user admin --password <your-password>
+----
+
+=== Step 2: Retrieve Realm Information
+Use the `get` operation to list details about your current environment.
+
+[source,bash]
+----
+# Get a list of all realms
+[rhsso@sso ~]$ kcadm.sh get realms
+----
+
+=== Step 3: Cleanup
+Once you have completed your exploration of the CLI, ensure that you conclude the lab properly to maintain environment stability.
+
+[source,bash]
+----
+[student@workstation ~]$ lab finish install-adminconsole
+----
+
+== Troubleshooting and Best Practices
+
+*   **Help is Available**: If you are unsure of the arguments for a specific endpoint, use the `help` command: `kcadm.sh help`.
+*   **JSON Payloads**: For `create` or `update` operations, you can pass a JSON file using the `-f` flag to manage complex configurations easily: `kcadm.sh create users -f user-data.json`.
+*   **Credential Security**: Avoid running commands containing passwords in your shell history. Use environment variables or configuration files where possible in production environments.

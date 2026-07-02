@@ -1,0 +1,84 @@
+#  Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift
+
+= Guided Exercise: Install Red Hat build of Keycloak on Red Hat OpenShift
+
+In this exercise, you will deploy the Red Hat build of Keycloak on an OpenShift cluster using the Keycloak Operator. This approach leverages Kubernetes-native patterns to manage the lifecycle of your identity provider.
+
+== Prerequisites
+* An active Red Hat OpenShift cluster.
+* `oc` CLI tool installed and authenticated to your cluster.
+* Access to the OperatorHub within the OpenShift web console.
+
+== Step 1: Create a Namespace
+It is best practice to isolate your Keycloak deployment in its own project.
+
+[source,bash]
+----
+oc new-project sso-production
+----
+
+== Step 2: Install the Keycloak Operator
+The Keycloak Operator automates the deployment and management of Keycloak instances.
+
+1. Log in to the OpenShift Web Console.
+2. Navigate to **Operators** > **OperatorHub**.
+3. Search for **Keycloak**.
+4. Select the **Red Hat build of Keycloak** operator.
+5. Click **Install**.
+6. Ensure the **Installation Mode** is set to "A specific namespace on the cluster" and select `sso-production`.
+7. Click **Install**.
+
+== Step 3: Define the Keycloak Custom Resource
+Once the Operator is running, you must define the `Keycloak` custom resource. This resource specifies the desired state of your Keycloak deployment.
+
+Create a file named `keycloak-instance.yaml`:
+
+[source,yaml]
+----
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: sso-keycloak
+  namespace: sso-production
+spec:
+  instances: 1
+  image: registry.access.redhat.com/rhbk/keycloak-rhel9:22.0
+  db:
+    vendor: postgres
+    host: keycloak-db
+  hostname:
+    hostname: sso.example.com
+  tls:
+    certificateSecret:
+      secretName: keycloak-tls-secret
+----
+
+Apply the configuration:
+
+[source,bash]
+----
+oc apply -f keycloak-instance.yaml
+----
+
+== Step 4: Verify the Installation
+Check the status of your deployment to ensure the pods are starting correctly.
+
+[source,bash]
+----
+oc get pods -n sso-production
+----
+
+You should see the Keycloak pod transitioning to the `Running` state. You can inspect the logs to verify successful startup:
+
+[source,bash]
+----
+oc logs -f deployment/sso-keycloak -n sso-production
+----
+
+== Troubleshooting Tips
+* **Resource Constraints:** If the pod remains in `Pending` state, check the node resources using `oc describe pod <pod-name>`.
+* **Image Pull Errors:** Ensure your cluster has appropriate access to the Red Hat Ecosystem Catalog or that your pull secrets are correctly configured.
+* **Database Connectivity:** If the log shows connection failures, verify that your database service is running and that the `db` spec in your `Keycloak` custom resource matches the service name and credentials.
+
+== Summary
+You have successfully installed the Red Hat build of Keycloak on OpenShift using the Operator pattern. You are now prepared to proceed to configuring the environment for authentication flows.

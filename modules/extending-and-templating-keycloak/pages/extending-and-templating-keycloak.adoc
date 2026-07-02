@@ -1,0 +1,8 @@
+#  Extending and Templating Keycloak
+
+= Extending and Templating Keycloak
+
+Red Hat build of Keycloak provides flexibility through customization, allowing administrators to modify both the appearance and functionality of the platform.
+
+*   **Templating:** Customizes the user-facing interfaces, including login, registration, and account management pages, to align with organizational branding.
+*   **Extending:** Enhances the core functionality of the platform by implementing custom providers and features to meet specific business requirements.

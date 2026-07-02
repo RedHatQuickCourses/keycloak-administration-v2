@@ -1,0 +1,49 @@
+#  Quiz: Describe Keycloak Systems
+
+= Quiz: Describe Keycloak Systems
+
+This section provides a short quiz to test your understanding of why identity and access management (IAM) systems like Red Hat build of Keycloak are essential in modern enterprise architectures.
+
+[quiz]
+====
+
+[.question]
+1. Which of the following best describes the primary challenge that Red Hat build of Keycloak solves in a microservices architecture?
+*   a) Managing physical server hardware and network cabling.
+*   b) Centralizing authentication and authorization to prevent "siloed" user stores across multiple applications.
+*   c) Providing a database for storing unstructured raw binary files.
+*   d) Writing the backend business logic for third-party financial applications.
+
+[.answer]
+--
+*Correct Answer: b*
+Explanation: Red Hat build of Keycloak acts as a centralized Identity Provider (IdP), allowing developers to offload authentication and authorization logic, ensuring that users have a unified identity across disparate services.
+--
+
+[.question]
+2. In the context of "Credential Isolation," why is it a security best practice to use an IAM system like Keycloak rather than storing passwords directly within each individual application?
+*   a) It makes it easier for developers to manually reset passwords via database queries.
+*   b) It reduces the attack surface by ensuring that application code never needs to handle or store sensitive user credentials directly.
+*   c) It increases the speed of the application's UI rendering.
+*   d) It eliminates the need for any form of encryption.
+
+[.answer]
+--
+*Correct Answer: b*
+Explanation: By centralizing credentials in a hardened, dedicated security product, applications only handle security tokens (like OIDC ID tokens) rather than raw credentials, significantly reducing the risk of credential theft during a breach of a single application.
+--
+
+[.question]
+3. Which of the following protocols is natively supported by Red Hat build of Keycloak to enable Single Sign-On (SSO) across applications? (Select all that apply)
+*   a) OIDC (OpenID Connect)
+*   b) OAuth 2.0
+*   c) SAML 2.0
+*   d) FTP (File Transfer Protocol)
+
+[.answer]
+--
+*Correct Answer: a, b, and c*
+Explanation: Keycloak is designed to support industry-standard identity protocols, including OIDC, OAuth 2.0, and SAML 2.0, allowing for seamless interoperability between various platforms and services.
+--
+
+====

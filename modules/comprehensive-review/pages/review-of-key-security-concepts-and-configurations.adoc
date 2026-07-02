@@ -1,0 +1,48 @@
+#  Review of key security concepts and configurations
+
+= Review of Key Security Concepts and Configurations
+
+In this module, we consolidate the foundational security principles and configuration patterns required to harden and maintain a production-ready Red Hat build of Keycloak environment.
+
+== Security Concept Consolidation
+
+Before deploying into high-trust environments, ensure you have mastered the following core security pillars:
+
+*   **Credential Isolation:** Understand how Keycloak acts as an Identity Provider (IdP) to centralize credentials, ensuring that individual applications never handle raw user passwords.
+*   **Token-Based Security:** Leverage OIDC and OAuth 2.0 to manage access. Always prioritize the use of short-lived `Access Tokens` and secure `Refresh Tokens` to maintain a balance between user convenience and security.
+*   **Least Privilege Authorization:** Utilize Keycloak’s fine-grained Role-Based Access Control (RBAC) and Permission-Based Access Control to ensure users and services possess only the minimum required access rights.
+*   **Identity Federation & Brokering:** Centralize user management by delegating authentication to established LDAP/Active Directory stores or trusted third-party providers, reducing the attack surface by minimizing local user storage.
+
+== Critical Configuration Checklist
+
+When configuring your Keycloak instances, verify these security-critical settings:
+
+[cols="1,2"]
+|===
+| Configuration Area | Best Practice
+
+| *Transport Layer* | Always enforce TLS/HTTPS. Never expose the Admin Console or authentication endpoints over unencrypted connections.
+| *Client Secrets* | Store client secrets in secure vaults (e.g., HashiCorp Vault, OpenShift Secrets) rather than hardcoding them in configuration files.
+| *Token Lifespans* | Adjust `Access Token Lifespan` and `SSO Session Idle` timeouts to match your organization's risk profile. Shorter durations mitigate the impact of token interception.
+| *Brute Force Detection* | Enable and configure the built-in brute force protection settings to lock out accounts after repeated failed login attempts.
+| *Audit Logging* | Enable event logging to track authentication and administrative actions, facilitating compliance and forensic analysis.
+|===
+
+== Troubleshooting Guidance
+
+If security mechanisms appear to be failing, use this diagnostic workflow:
+
+1.  **Inspect Token Claims:** Use the https://jwt.io/[JWT Debugger] to verify that the claims (roles, scopes, audience) within your generated tokens match your expected authorization policy.
+2.  **Examine Event Logs:** In the Admin Console, navigate to **Events > Login Events**. Filter for `LOGIN_ERROR` or `CODE_TO_TOKEN_ERROR` to identify patterns in authentication failures.
+3.  **Validate Redirect URIs:** A common source of OIDC failure is a mismatch in Redirect URIs. Ensure that the `Valid Redirect URIs` field in your Client configuration exactly matches the application's callback URL.
+
+== Knowledge Check
+
+*   **Scenario:** You notice unauthorized attempts to guess user passwords. Which Keycloak feature should be audited and tuned?
+*   **Scenario:** You need to integrate an external Active Directory server to prevent credential fragmentation. Which Keycloak subsystem handles this?
+*   **Review:** Why is "Credential Isolation" considered the primary security benefit of implementing an Identity Provider?
+
+[TIP]
+====
+For a comprehensive review, return to the **Admin Console** and navigate to the **Realm Settings > Security Defenses** tab. Ensure your `Content-Security-Policy` and `Strict-Transport-Security` headers are configured according to your organization's security policy.
+====
